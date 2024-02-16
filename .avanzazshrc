@@ -1,0 +1,32 @@
+#!/bin/bash
+
+stock() {
+  local stock_id="$1"
+  curl -s "https://www.avanza.se/_api/market-guide/stock/$stock_id" | jq --arg stock_id "$stock_id"-r '{name} + (.quote | {last, highest, lowest})'
+}
+
+grangex() {
+  curl -s "https://www.avanza.se/_api/market-guide/stock/118370" | jq -r '.quote | {last, highest, lowest}'
+}
+
+astor() {
+  curl -s "https://www.avanza.se/_api/market-guide/stock/1523003" | jq -r '.quote | {last, highest, lowest}'
+}
+
+kebni() {
+  curl -s "https://www.avanza.se/_api/market-guide/stock/840508" | jq -r '.quote | {last, highest, lowest}'
+}
+
+
+# Function to fetch data for predefined stock IDs
+stocks() {
+  local stock_ids=("1523003" "118370" "840508")
+  local results=()
+
+  for id in "${stock_ids[@]}"; do
+    result=$(stock "$id")
+    results+=("$result")
+  done
+
+  echo "${results[@]}" | jq -s '.'
+}

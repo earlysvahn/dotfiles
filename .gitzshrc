@@ -1,0 +1,233 @@
+# git aliases
+alias add="git add -A"
+alias clone="git clone"
+alias ga="git add -A"
+alias commit="git commit -m"
+alias gc="git commit -m"
+alias push="git push"
+alias cont='git rebase --continue'
+alias gp="git push"
+alias pushup="git push -u origin HEAD"
+alias gpu="git push -u origin HEAD"
+alias reset="git reset --hard HEAD"
+alias gr="git reset --hard HEAD"
+alias get="git pull"
+alias gf="git pull"
+alias status="git status"
+alias gs="git status"
+alias diff="git diff"
+alias gd="git diff"
+alias checkout="git checkout"
+alias gco="git checkout"
+alias checkoutb="git checkout -b"
+alias gcb="git checkout -b"
+alias prev="git checkout -"
+alias gcp="git checkout -"
+alias lazy='lazygit'
+
+# gitopen() - open current repo in github, if -a or --action is passed, open the actions page
+gitopen() {
+    open_actions=false
+
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            -a|--actions)
+                open_actions=true
+                shift
+                ;;
+            -A)
+                open_actions=true
+                shift
+                ;;
+            *)
+                shift
+                ;;
+        esac
+    done
+
+    repo_url=$(git config --get remote.origin.url)
+
+    if [ -n "$repo_url" ]; then
+        if [ "$open_actions" = true ]; then
+            github_actions_url="${repo_url%.git}/actions"
+            open "$github_actions_url"
+        else
+            open "$repo_url"
+        fi
+    else
+        echo "Error: Not a Git repository or no remote URL configured."
+    fi
+
+}
+
+# gitpush() - Add all changes, commit with a message and push to the remote repository
+gitpush() {
+    git add -A && git commit -m "$1" && git push
+}
+
+# gitpull() - Pull the latest changes from all repositories
+getall() {
+    repo_directory=~/development
+    green='\033[0;32m'
+    red='\033[0;31m'
+    yellow='\033[0;33m'
+    reset='\033[0m'
+    cd "$repo_directory" || return
+
+    for repo in */; do
+        cd "$repo" || continue
+        echo "Updating repository: $repo"
+
+        if [ "$repo" = "dooris-repo/" ]; then
+            if git pull origin main-k8s &> /dev/null; then
+                if [ -n "$(git log HEAD..@{u})" ]; then
+                    echo -e "${green}Fetched latest changes${reset}"
+                else
+                    echo -e "${yellow}Already up to date.${reset}"
+                fi
+            else
+                echo -e "${red}Could not fetch for repo $repo${reset}"
+            fi
+        else
+            if git pull origin main &> /dev/null; then
+                if [ -n "$(git log HEAD..@{u})" ]; then
+                    echo -e "${green}Fetched latest changes${reset}"
+                else
+                    echo -e "${yellow}Already up to date.${reset}"
+                fi
+            else
+                echo -e "${red}Could not fetch for repo $repo${reset}"
+            fi
+        fi
+
+        cd ..
+    done
+}
+
+# issue() - Edit the description of an issue on GitHub or view the issue details using -v/--view
+issue() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: issue <issue_number> [-v | --view]"
+        return 1
+    fi
+
+    local issue_number="$1"
+    local temp_file="/tmp/issue_description_${issue_number}.txt"
+
+    if [[ "$2" == "-v" || "$2" == "--view" ]]; then
+        gh issue view "$issue_number"
+        return
+    fi
+
+    local issue_description=$(gh issue view "$issue_number" --json "body" 2>/dev/null | jq -r ".body")
+
+    if [[ -z "$issue_description" ]]; then
+        echo "Error: Unable to fetch issue details. Please check if the issue number is correct."
+        return 1
+    fi
+
+    echo "$issue_description" > "$temp_file"
+
+    vim "$temp_file"
+
+    printf "Do you want to update the issue with the modified description? (y/n): "
+    read answer
+    if [ "$answer" = "y" ]; then
+        gh issue edit "$issue_number" --body "$(cat "$temp_file")"
+        echo "Issue $issue_number updated successfully."
+    else
+        echo "No changes were made to issue $issue_number."
+    fi
+}
+
+# issues() - List all issues for the current repository
+issues() {
+  gh issue list
+}
+
+# dpd() - .deploy dev for the PR, usage: deploydev PR_NUMBER
+dpd() {
+  gh pr comment "$1" --body ".deploy dev"
+}
+
+# dpt() - .deploy dev for the PR, usage: deploytest PR_NUMBER
+dpt() {
+  gh pr comment "$1" --body ".deploy test"
+}
+
+# dps() - .deploy dev for the PR, usage: deploystage PR_NUMBER
+dps() {
+  gh pr comment "$1" --body ".deploy stage"
+}
+
+# pr() - Create a pull request to the base branch, usage: pr [base_branch] (default: main)
+pr() {
+  local base_branch="main"
+
+  case "$1" in
+    "main")
+      base_branch="main"
+      ;;
+    "k8s")
+      base_branch="main-k8s"
+      ;;
+    *)
+      base_branch="$1"
+      ;;
+  esac
+
+  gh pr create --base "$base_branch" --head "$(git branch --show-current)"
+}
+
+# rebase() - Rebase the current branch onto the base branch, usage: rebase [base_branch] (default: main)
+rebase() {
+  local base_branch="main"
+
+  case "$1" in
+    "main")
+      base_branch="main"
+      ;;
+    "k8s")
+      base_branch="main-k8s"
+      ;;
+    *)
+      base_branch="$1"
+      ;;
+  esac
+
+  local current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  if [ "$current_branch" = "$base_branch" ]; then
+    echo "⚠️ You are already on the $base_branch branch"
+    echo "⬇️ Pulling latest changes from $base_branch"
+    git pull
+    return 0
+  fi
+
+  echo "🔄 Switching from $current_branch to $base_branch"
+  sleep 0.5
+  git checkout $base_branch
+
+  echo "⬇️ Pulling latest changes from $base_branch"
+  sleep 0.5
+  git fetch origin $base_branch
+
+  if git diff --quiet $base_branch origin/$base_branch; then
+    echo "✅ No changes in $base_branch"
+  else
+    echo "🔄 Changes detected in $base_branch, pulling changes"
+    git pull
+  fi
+
+  sleep 0.5
+  echo "🔄 Changing back to $current_branch"
+  git checkout -
+
+  sleep 0.5
+  echo "🔄 Rebasing $base_branch onto $current_branch"
+  if git rebase "$base_branch"; then
+    echo "✅ Rebase successful"
+  else
+    echo "❌ Rebase failed. Please resolve conflicts and then continue the rebase manually."
+  fi
+}

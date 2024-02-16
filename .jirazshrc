@@ -1,0 +1,49 @@
+source '.env'
+
+alias jirac='jira issue comment add NUMBER_HERE'
+
+add_comment() {
+    local issue_number=$1
+    local comment_text=$2
+
+    jira issue comment add $issue_number "$comment_text"
+}
+
+# comment() - Add a comment to the current Jira issue
+comment() {
+    local branch_name=$(git symbolic-ref --short HEAD)
+    local second_value=${branch_name#feature/}
+    second_value=${second_value%%/*}
+    if [[ $second_value =~ ^[A-Z]{2}-[0-9]+$ ]]; then
+        echo "🔍 Found Jira issue: $second_value" from branch
+
+        echo -n "Enter your comment: \c"
+        read comment_text
+
+        add_comment "$second_value" "$comment_text"
+    else
+        echo "🚫 Invalid format: $second_value. It should be in the format AX-222."
+
+        echo -n "❓ Do you want to provide a custom issue number? (y/n): \c"
+        read custom_issue_choice
+        if [[ $custom_issue_choice == "yes" || $custom_issue_choice == "Yes" || $custom_issue_choice == "YES" || $custom_issue_choice == "y" || $custom_issue_choice == "Y"  ]]; then
+            echo -n "🖍 Enter custom issue number (e.g., AX-123): \c"
+            read custom_issue_number
+
+            echo -n "Enter your comment: \c"
+            read comment_text
+
+            add_comment "$custom_issue_number" "$comment_text"
+        else
+            echo -n "🔍 Do you want to list Jira issues? (y/n): \c"
+            read choice
+            if [[ $choice == "yes" || $choice == "yes" || $choice == "yes" || $choice == "y" || $choice == "y" ]]; then
+                jira sprint list --current
+            else
+                echo "No Jira issues listed."
+            fi
+        fi
+    fi
+}
+
+

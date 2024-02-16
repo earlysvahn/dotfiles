@@ -1,0 +1,48 @@
+source '.env';
+
+export HA_CLITOKEN=$HA_CLITOKEN
+export API_SERVICE_URL=$API_SERVICE_URL
+export API_SERVICE_URL_BACKUP=$API_SERVICE_URL_BACKUP
+
+alias office='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" http://192.168.20.208:8123/api/services/light/toggle'
+alias lightsout='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" http://192.168.20.208:8123/api/services/light/turn_off'
+scene() {
+    echo "Select a scene:"
+    echo "1. Work"
+    echo "2. Gaming"
+    echo "3. Chill"
+    echo "4. Off"
+    echo -n "Enter the number of the scene: "
+
+    read choice
+
+    case $choice in
+        1)
+            entity_id="scene.work"
+            ;;
+        2)
+            entity_id="scene.gaming"
+            ;;
+        3)
+            entity_id="scene.chill"
+            ;;
+        4)
+            entity_id="light.upstairs_office_lights"
+            ;;
+        *)
+            echo "Invalid choice. Please select a valid option."
+            return 1
+            ;;
+    esac
+
+    echo "Making API call to: $API_SERVICE_URL/scene/turn_on"
+    response=$(gtimeout 1 curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"$entity_id\"}" "$API_SERVICE_URL/scene/turn_on")
+
+    if [ -z "$response" ]; then
+        echo "Initial API call timed out. Making backup API call to: $API_SERVICE_URL_BACKUP/scene/turn_on"
+        curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"$entity_id\"}" "$API_SERVICE_URL_BACKUP/scene/turn_on"
+    else
+        echo "API response: $response"
+    fi
+}
+
