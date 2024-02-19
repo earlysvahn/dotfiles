@@ -38,7 +38,7 @@ alias kube='cd ~/development/kube-tui/ && cargo run'
 alias dotfiles='cd ~/dotfiles/'
 alias rider=' open -na "/Applications/Rider.app"'
 
-alias dbup='dockeu stop CloudSQLProxy && docker rm CloudSQLProxy && \
+alias dbup='docker stop CloudSQLProxy && docker rm CloudSQLProxy && \
 docker run -d --name CloudSQLProxy -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json -p 127.0.0.1:2001-2008:2001-2008 --restart unless-stopped gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.1 --address 0.0.0.0 --port 2005 -c /path/to/service-account-key.json bird-nest-dev:europe-north1:services-db-instance bird-nest-test:europe-north1:services-db-instance bird-nest-stage:europe-north1:services-db-instance bird-nest-prod:europe-north1:services-db-instance -i'
 alias mkdir="mkdir -pv" 
 alias grep="grep -n --color"
