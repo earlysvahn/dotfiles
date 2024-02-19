@@ -1,4 +1,5 @@
-source '.env';
+
+source ~/dotfiles/.env
 
 export HA_CLITOKEN=$HA_CLITOKEN
 export API_SERVICE_URL=$API_SERVICE_URL
