@@ -16,6 +16,7 @@ alias codezsh='code ~/.zshrc'
 alias codeha='code ~/dotfiles/.hazshrc'
 alias codejira='code ~/dotfiles/.jirazshrc'
 alias codegit='code ~/dotfiles/.gitzshrc'
+alias codealias='code ~/dotfiles/.aliasrc'
 
 # Example aliases
 alias root='cd ~/development'
@@ -66,6 +67,13 @@ alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
 alias oldvim='\vim'
+
+#tmux
+alias t='tmux'
+alias tkill='tmux kill-session -t'
+alias ta='tmux attach -t'
+alias tls='tmux ls'
+alias tnew='tmux new -s'
 
 alias cd..='cd ..'
 alias ..='cd ..'
