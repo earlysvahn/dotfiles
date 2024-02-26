@@ -20,4 +20,4 @@ if ! { [ -n "$TMUX" ]; } then
     tmux attach-session -t $selected_name
 else
     tmux switch-client -t $selected_name
-fo
+fi

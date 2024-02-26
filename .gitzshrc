@@ -128,7 +128,7 @@ issue() {
 
     echo "$issue_description" > "$temp_file"
 
-    vim "$temp_file"
+    nvim "$temp_file"
 
     printf "Do you want to update the issue with the modified description? (y/n): "
     read answer
