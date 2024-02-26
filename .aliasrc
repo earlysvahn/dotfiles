@@ -62,7 +62,7 @@ alias bunr='bun run --watch dev'
 alias bunswag='bun run nswag'
 alias bunup='bun upgrade'
 alias dr='dotnet run'
-alias vi="nvim"
+alias vi="nvm"
 alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
@@ -74,6 +74,11 @@ alias tkill='tmux kill-session -t'
 alias ta='tmux attach -t'
 alias tls='tmux ls'
 alias tnew='tmux new -s'
+
+# utils
+alias ss='bash tmux-sessionizer.sh'
+alias todos='bash joplin-todos.sh'
+alias notes='joplin'
 
 alias cd..='cd ..'
 alias ..='cd ..'
