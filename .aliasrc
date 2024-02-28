@@ -76,11 +76,10 @@ alias tls='tmux ls'
 alias tnew='tmux new -s'
 
 # utils
-alias ss='bash tmux-sessionizer.sh'
-alias todos='bash joplin-todos.sh'
 alias notes='joplin'
 
 alias cd..='cd ..'
+
 alias ..='cd ..'
 alias ...='cd ../../../'
 alias ....='cd ../../../../'
