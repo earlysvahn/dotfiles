@@ -252,49 +252,6 @@ go() {
 
 # Use to get all PRs created by @me for the current directory
 alias prs='gh pr list --author "@me"'
+alias work='bash ~/dotfiles/work-on-issue.sh'
 
-work() {
-    if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-        echo "Error: Not inside a Git repository. Aborting."
-        return 1
-    fi
-    
-    issue=$(gh issue list --limit 200 | fzf --header "Select issue" | awk -F '\t' '{ print $1 }')
-    
-    if [[ -z "$issue" ]]; then
-        read -p "No issues found. Do you want to create a new issue? (y/n): " create_issue
-        if [[ $create_issue == "y" ]]; then
-            # Logic to create a new issue
-            # Replace the following line with your code to create a new issue
-            echo "Creating a new issue..."
-        else
-            echo "Aborted."
-            return
-        fi
-    fi
-    
-    sanitized=$(gh issue view $issue --json "title" | jq -r ".title" | tr '[:upper:]' '[:lower:]' | tr -s -c "a-z0-9\n" "-" | head -c 60)
-    branchname=$issue-$sanitized
-    shortname=$(echo $branchname | head -c 30)
-    if [[ ! -z "$shortname" ]]; then
-        git fetch
-        existing=$(git branch -a | grep -v remotes | grep $shortname | head -n 1)
-        if [[ ! -z "$existing" ]]; then
-            sh -c "git switch $existing"
-        else
-            bold=$(tput bold)
-            normal=$(tput sgr0)
-            echo "${bold}Please confirm new branch name:${normal}"
-            vared branchname
-            #base=$(git branch --show-current)
-            base=dev
-            echo "${bold}Please confirm the base branch:${normal}"
-            vared base
-            if [[ -z "$base" ]]; then
-                base=$(gh repo view --json defaultBranchRef --jq ".defaultBranchRef.name")
-            fi
-            git checkout -b $branchname origin/$base
-            git push --set-upstream origin $branchname
-        fi
-    fi
-}
+
