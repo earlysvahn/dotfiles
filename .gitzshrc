@@ -25,40 +25,9 @@ alias prev="git checkout -"
 alias gcp="git checkout -"
 alias lazy='lazygit'
 alias gl=glgg --pretty=oneline --abbrev-commit
+
 # gitopen() - open current repo in github, if -a or --action is passed, open the actions page
-gitopen() {
-    open_actions=false
-
-    while [ "$#" -gt 0 ]; do
-        case "$1" in
-            -a|--actions)
-                open_actions=true
-                shift
-                ;;
-            -A)
-                open_actions=true
-                shift
-                ;;
-            *)
-                shift
-                ;;
-        esac
-    done
-
-    repo_url=$(git config --get remote.origin.url)
-
-    if [ -n "$repo_url" ]; then
-        if [ "$open_actions" = true ]; then
-            github_actions_url="${repo_url%.git}/actions"
-            open "$github_actions_url"
-        else
-            open "$repo_url"
-        fi
-    else
-        echo "Error: Not a Git repository or no remote URL configured."
-    fi
-
-}
+alias gopen='bash ~/dotfiles/git-open.sh'
 
 # gitpush() - Add all changes, commit with a message and push to the remote repository
 gitpush() {
