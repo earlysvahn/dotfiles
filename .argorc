@@ -1,0 +1,5 @@
+alias argodev='argocd login dev.earlybird.se --sso --grpc-web-root-path argocd'
+alias argotest='argocd login test.earlybird.se --sso --grpc-web-root-path argocd'
+alias argostage='argocd login stage.earlybird.se --sso --grpc-web-root-path argocd'
+alias argoapps='argocd app list'
+alias argosync='argocd app sync'
