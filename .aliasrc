@@ -72,8 +72,10 @@ alias oldvim='\vim'
 alias t='tmux'
 alias tkill='tmux kill-session -t'
 alias ta='tmux attach -t'
+alias td='tmux detach'
 alias tls='tmux ls'
 alias tnew='tmux new -s'
+alias tks='tmux kill-server'
 
 # utils
 alias notes='joplin'
@@ -96,3 +98,6 @@ fi
 # qmk
 alias qmkc='qmk compile -kb keebio/iris/rev2 -km earlysvahn'
 alias qmkf='cd ~/qmk_firmware/keyboards/keebio/iris/keymaps'
+
+#spt
+alias rspt="brew services restart spotifyd && spt"
