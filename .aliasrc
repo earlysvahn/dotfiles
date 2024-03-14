@@ -8,6 +8,10 @@ chrome() {
     fi
     open -a "Google Chrome" "$url"
 }
+
+
+
+
 alias gpt='chrome chat.openai.com'
 alias mess='chrome messenger'
 alias wttr='curl -s "wttr.in/Nyköping?format=🌄%20%S%20➡️%20%20%s%20🌃\n%c%t%20(feels%20like%20%f)\n"'
@@ -67,6 +71,44 @@ alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
 alias oldvim='\vim'
+
+
+tvim() {
+    local session_name="nvim"
+    local file_path=
+
+    # Check if -n option is set
+    while getopts "n:" opt; do
+        case $opt in
+            n)
+                session_name="$OPTARG"
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                return 1
+                ;;
+            :)
+                echo "Option -$OPTARG requires an argument." >&2
+                return 1
+                ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+    # If file path is provided, set it
+    if [[ $# -eq 1 ]]; then
+        file_path="$1"
+    fi
+
+    if [[ -z $TMUX ]]; then
+        # If no tmux session is active, create one
+        tmux new-session -s "$session_name" -n nvim -c "$(dirname "$file_path")" "nvim $file_path"
+    else
+        # If tmux session is active, just launch nvim
+        command nvim "$file_path"
+    fi
+}
+
 
 #tmux
 alias t='tmux'
