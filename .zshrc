@@ -56,3 +56,6 @@ test -e /Users/fredriksvahn/.iterm2_shell_integration.zsh && source /Users/fredr
 
 # bun completions
 [ -s "/Users/fredriksvahn/.bun/_bun" ] && source "/Users/fredriksvahn/.bun/_bun"
+
+
+eval "$(zoxide init zsh)"

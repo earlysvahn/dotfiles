@@ -11,7 +11,7 @@ chrome() {
 
 
 
-
+alias git='LANG=en_GB git'
 alias gpt='chrome chat.openai.com'
 alias mess='chrome messenger'
 alias wttr='curl -s "wttr.in/Nyköping?format=🌄%20%S%20➡️%20%20%s%20🌃\n%c%t%20(feels%20like%20%f)\n"'
@@ -42,9 +42,10 @@ alias wep='cd ~/private-dev/wepedigree'
 alias kube='cd ~/development/kube-tui/ && cargo run'
 alias dotfiles='cd ~/dotfiles/'
 alias rider=' open -na "/Applications/Rider.app"'
+alias weaver='cd ~/development/weaver'
 
-alias dbup='docker stop CloudSQLProxy && docker rm CloudSQLProxy && \
-docker run -d --name CloudSQLProxy -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json -p 127.0.0.1:2001-2008:2001-2008 --restart unless-stopped gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.1 --address 0.0.0.0 --port 2005 -c /path/to/service-account-key.json bird-nest-dev:europe-north1:services-db-instance bird-nest-test:europe-north1:services-db-instance bird-nest-stage:europe-north1:services-db-instance bird-nest-prod:europe-north1:services-db-instance -i'
+alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name CloudSQLProxy -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json -p 127.0.0.1:2001-2008:2001-2008 --restart unless-stopped gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.1 --address 0.0.0.0 --port 2005 -c /path/to/service-account-key.json bird-nest-dev:europe-north1:services-db-instance bird-nest-test:europe-north1:services-db-instance bird-nest-stage:europe-north1:services-db-instance bird-nest-prod:europe-north1:services-db-instance -i'
+alias breederdb='docker stop breederdb || true && docker rm breederdb || true && docker run --name breederdb -e POSTGRES_PASSWORD=N7EXkBxNFDBXWmTGZgPJ6aNGtpoCsazexBtGdm92sezi -d -p 5432:5432 postgres'
 alias mkdir="mkdir -pv" 
 alias grep="grep -n --color"
 alias reload="source ~/.zshrc"
@@ -71,7 +72,8 @@ alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
 alias oldvim='\vim'
-
+alias inshallah='dotnet build'
+alias mashallah='dotnet run'
 
 tvim() {
     local session_name="nvim"
@@ -122,8 +124,10 @@ alias tks='tmux kill-server'
 # utils
 alias notes='joplin'
 
-alias cd..='cd ..'
+# typing
+alias tt='tt -theme dracula -n 15 -g 1'
 
+alias cd..='cd ..'
 alias ..='cd ..'
 alias ...='cd ../../../'
 alias ....='cd ../../../../'
