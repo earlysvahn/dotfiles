@@ -8,9 +8,10 @@ export API_SERVICE_URL_BACKUP=$API_SERVICE_URL_BACKUP
 alias office='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" http://192.168.20.208:8123/api/services/light/toggle'
 alias lightsout='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" http://192.168.20.208:8123/api/services/light/turn_off'
 
+alias monitorl='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"switch.monitor_backlight_switch\"}" http://192.168.20.208:8123/api/services/switch/toggle'
 alias blinds='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"input_boolean.master_bedroom_blinds_open\"}" http://192.168.20.208:8123/api/services/input_boolean/toggle'
 alias stop='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"script.master_bedroom_stop_blinds\"}" http://192.168.20.208:8123/api/services/script/turn_on'
-
+alias alloffice='office && monitorl'
 scene() {
     echo "Select a scene:"
     echo "1. Work"

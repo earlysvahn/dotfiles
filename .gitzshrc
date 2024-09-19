@@ -24,7 +24,33 @@ alias gcb="git checkout -b"
 alias prev="git checkout -"
 alias gcp="git checkout -"
 alias lazy='lazygit'
-alias gl=glgg --pretty=oneline --abbrev-commit
+alias gl='glgg --pretty=oneline --abbrev-commit'
+
+#clonrepo() - clones repo into developent, if -c is passed, it will clone into current directory
+function clonerepo {
+    local dir="$HOME/development"  # Default directory
+
+    while getopts "c" opt; do
+        case $opt in
+            c)
+                dir="$PWD"  # Set directory to current directory if -c flag is used
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND - 1))
+
+    if [ -z "$1" ]; then
+        echo "Usage: clonerepo [-c] <repo-name>"
+    else
+        git clone "https://github.com/dooris-dev/$1.git" "$dir/$1"
+    fi
+}
+
 
 # gitopen() - open current repo in github, if -a or --action is passed, open the actions page
 alias gopen='bash ~/dotfiles/git-open.sh'
@@ -199,23 +225,6 @@ rebase() {
   else
     echo "❌ Rebase failed. Please resolve conflicts and then continue the rebase manually."
   fi
-}
-
-# go() - Change directory to the specified repository in the development directory
-go() {
-    if [ -z "$1" ]; then
-        echo "Usage: ide REPO_NAME"
-        return 1
-    fi
-
-    local repo_path=~/development/"$1"
-
-    if [ -d "$repo_path" ]; then
-        cd "$repo_path"
-    else
-        echo "Repository not found: $1"
-        return 1
-    fi
 }
 
 
