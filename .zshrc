@@ -16,6 +16,7 @@ source $ZSH/oh-my-zsh.sh
 source $HOME/dotfiles/.hazshrc
 source $HOME/dotfiles/.jirazshrc
 source $HOME/dotfiles/.avanzazshrc
+source $HOME/dotfiles/.dotnetzhsrc
 source $HOME/dotfiles/.gitzshrc
 source $HOME/dotfiles/.env
 source $HOME/dotfiles/.aliasrc

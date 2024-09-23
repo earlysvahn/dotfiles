@@ -66,14 +66,11 @@ alias buna='bun add'
 alias bunr='bun run --watch dev'
 alias bunswag='bun run nswag'
 alias bunup='bun upgrade'
-alias dr='dotnet run'
 alias vi="nvm"
 alias vim="nvim"
 alias view="nvim -R"
 alias vimdiff="nvim -d"
 alias oldvim='\vim'
-alias inshallah='dotnet build'
-alias mashallah='dotnet run'
 
 tvim() {
     local session_name="nvim"

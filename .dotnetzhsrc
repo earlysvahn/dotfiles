@@ -1,0 +1,13 @@
+
+alias inshallah='dotnet build'
+alias mashallah='dotnet run'
+alias dr=dotnet_run_fzf
+
+function dotnet_run_fzf() {
+    local project=$(find . -name "*.csproj" -o -name "*.fsproj" | fzf)
+    if [[ -n "$project" ]]; then
+        dotnet run --project "$project"
+    else
+        echo "No project selected."
+    fi
+}

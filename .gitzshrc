@@ -25,6 +25,9 @@ alias prev="git checkout -"
 alias gcp="git checkout -"
 alias lazy='lazygit'
 alias gl='glgg --pretty=oneline --abbrev-commit'
+alias build='gh workflow run'
+
+alias watch='tmux new-window -n "watch build" zsh -c "gh run watch"'
 
 #clonrepo() - clones repo into developent, if -c is passed, it will clone into current directory
 function clonerepo {
@@ -99,40 +102,88 @@ getall() {
     done
 }
 
-# issue() - Edit the description of an issue on GitHub or view the issue details using -v/--view
-issue() {
-    if [[ $# -eq 0 ]]; then
-        echo "Usage: issue <issue_number> [-v | --view]"
-        return 1
-    fi
 
+issue() {
     local issue_number="$1"
+    local action="$2"
     local temp_file="/tmp/issue_description_${issue_number}.txt"
 
-    if [[ "$2" == "-v" || "$2" == "--view" ]]; then
+    # Function to display the list of issues and select one
+    select_issue() {
+        # Get the issue list and format it for selection
+        local issue_list=$(gh issue list --limit 50 --json number,title | jq -r '.[] | "\(.number): \(.title)"')
+
+        # Use fzf or select to choose the issue if no issue number was passed
+        issue_number=$(echo "$issue_list" | fzf --prompt="Select an issue: " | cut -d':' -f1)
+
+        if [[ -z "$issue_number" ]]; then
+            echo "No issue selected."
+            return 1
+        fi
+    }
+
+    # If no issue number is provided, use the select_issue function to choose one
+    if [[ -z "$issue_number" ]]; then
+        select_issue
+        if [[ $? -ne 0 ]]; then
+            return 1
+        fi
+    fi
+
+    # If no action is provided, prompt for action (view, comment, or edit)
+    if [[ -z "$action" ]]; then
+        echo "Choose action: (v)iew / (c)omment / (e)dit"
+        read -r action
+    fi
+
+    # Handle view action
+    if [[ "$action" == "v" || "$action" == "--view" ]]; then
         gh issue view "$issue_number"
         return
     fi
 
-    local issue_description=$(gh issue view "$issue_number" --json "body" 2>/dev/null | jq -r ".body")
-
-    if [[ -z "$issue_description" ]]; then
-        echo "Error: Unable to fetch issue details. Please check if the issue number is correct."
-        return 1
+    # Handle comment action
+    if [[ "$action" == "c" || "$action" == "--comment" ]]; then
+        # Prepopulate the comment with team mentions
+        echo -e "@kjbakke @RobinGranqvistEB @storm84\n" > "$temp_file"
+        nvim +2 "$temp_file"
+        printf "Do you want to comment on issue $issue_number? (y/n): "
+        read answer
+        if [ "$answer" = "y" ]; then
+            gh issue comment "$issue_number" --body "$(cat "$temp_file")"
+            echo "Comment added to issue $issue_number."
+        else
+            echo "No comment was added to issue $issue_number."
+        fi
+        return
     fi
 
-    echo "$issue_description" > "$temp_file"
+    # Handle edit action
+    if [[ "$action" == "e" || "$action" == "--edit" ]]; then
+        # Get the current issue description
+        local issue_description=$(gh issue view "$issue_number" --json "body" 2>/dev/null | jq -r ".body")
+        if [[ -z "$issue_description" ]]; then
+            echo "Error: Unable to fetch issue details. Please check if the issue number is correct."
+            return 1
+        fi
 
-    nvim "$temp_file"
+        # Write the description to the temp file
+        echo "$issue_description" > "$temp_file"
+        nvim "$temp_file"
 
-    printf "Do you want to update the issue with the modified description? (y/n): "
-    read answer
-    if [ "$answer" = "y" ]; then
-        gh issue edit "$issue_number" --body "$(cat "$temp_file")"
-        echo "Issue $issue_number updated successfully."
-    else
-        echo "No changes were made to issue $issue_number."
+        printf "Do you want to update the issue with the modified description? (y/n): "
+        read answer
+        if [ "$answer" = "y" ]; then
+            gh issue edit "$issue_number" --body "$(cat "$temp_file")"
+            echo "Issue $issue_number updated successfully."
+        else
+            echo "No changes were made to issue $issue_number."
+        fi
+        return
     fi
+
+    # If none of the above actions are selected, show an error
+    echo "Invalid action. Please choose (v)iew, (c)omment, or (e)dit."
 }
 
 # issues() - List all issues for the current repository
@@ -226,7 +277,6 @@ rebase() {
     echo "❌ Rebase failed. Please resolve conflicts and then continue the rebase manually."
   fi
 }
-
 
 # Use to get all PRs created by @me for the current directory
 alias prs='gh pr list --author "@me"'

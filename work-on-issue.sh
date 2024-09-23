@@ -28,7 +28,7 @@ fi
 
 # Ask if this is a fix or a feature, with default to 'feature'
 read -p "Is this a 'fix' or a 'feature'? (default: feature): " type
-type=${type:-feature}  # Default to 'feature' if no input is provided
+type=${type:-feature} # Default to 'feature' if no input is provided
 
 # Validate input
 if [[ "$type" != "fix" && "$type" != "feature" ]]; then
