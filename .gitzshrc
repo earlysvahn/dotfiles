@@ -27,7 +27,7 @@ alias lazy='lazygit'
 alias gl='glgg --pretty=oneline --abbrev-commit'
 alias build='gh workflow run'
 
-alias watch='tmux new-window -n "watch build" zsh -c "gh run watch"'
+alias watch='tmux split-window -h "zsh -c \"gh run watch\""' 
 
 #clonrepo() - clones repo into developent, if -c is passed, it will clone into current directory
 function clonerepo {

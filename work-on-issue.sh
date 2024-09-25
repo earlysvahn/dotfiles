@@ -64,3 +64,6 @@ if [[ ! -z "$shortname" ]]; then
 		git push --set-upstream origin $branchname
 	fi
 fi
+
+# Assign yourself to the issue after everything is set up
+gh issue edit "$issue" --add-assignee earlysvahn

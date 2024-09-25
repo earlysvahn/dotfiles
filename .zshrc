@@ -25,7 +25,7 @@ source $HOME/dotfiles/.argorc
 alias todos='bash $HOME/dotfiles/joplin-todos.sh'
 alias ss='bash $HOME/dotfiles/tmux/tmux-sessionizer.sh'
 
-
+export PATH="/opt/homebrew/Cellar/omnisharp/1.35.3/libexec/bin:$PATH"
 export PATH="/usr/local/share/dotnet:$PATH"
 export PATH=$HOME/.dotnet/tools:$PATH
 
@@ -58,5 +58,22 @@ test -e /Users/fredriksvahn/.iterm2_shell_integration.zsh && source /Users/fredr
 # bun completions
 [ -s "/Users/fredriksvahn/.bun/_bun" ] && source "/Users/fredriksvahn/.bun/_bun"
 
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+  esac
+}
+
+eval $(thefuck --alias)
+eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
