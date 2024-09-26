@@ -74,6 +74,7 @@ _fzf_comprun() {
   esac
 }
 
+eval "$(fzf --zsh)"
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"

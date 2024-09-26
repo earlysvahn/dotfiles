@@ -40,12 +40,28 @@ alias label='cd ~/development/label'
 alias niff='cd ~/development/niffler'
 alias niffweb='cd ~/development/niffler-web'
 alias wep='cd ~/private-dev/wepedigree'
-alias kube='cd ~/development/kube-tui/ && cargo run'
+alias kube='cargo run --manifest-path ~/development/kube-tui/Cargo.toml'
 alias dotfiles='cd ~/dotfiles/'
 alias rider=' open -na "/Applications/Rider.app"'
 alias weaver='cd ~/development/weaver'
 
-alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name CloudSQLProxy -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json -p 127.0.0.1:2001-2005:2001-2005 --restart unless-stopped gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.1 --address 0.0.0.0 --port 2001 -c /path/to/service-account-key.json bird-nest-dev:europe-north1:services-db-instance bird-nest-test:europe-north1:services-db-instance bird-nest-stage:europe-north1:services-db-instance bird-nest-prod:europe-north1:services-db-instance bird-nest-prod:europe-north1:services-db-instance-replica -i'
+alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name CloudSQLProxy \
+  -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json \
+  -p 127.0.0.1:2001-2005:2001-2005 \
+  -p 127.0.0.1:2101-2105:2101-2105 \
+  --restart unless-stopped \
+  gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.1 \
+  --address 0.0.0.0 \
+  -c /path/to/service-account-key.json \
+  "bird-nest-dev:europe-north1:services-db-instance?port=2001" \
+  "bird-nest-test:europe-north1:services-db-instance?port=2002" \
+  "bird-nest-stage:europe-north1:services-db-instance?port=2003" \
+  "bird-nest-prod:europe-north1:services-db-instance?port=2004" \
+  "bird-nest-prod:europe-north1:services-db-instance-replica?port=2105" \
+  "bird-nest-dev:europe-north1:status-db-instance?port=2101" \
+  "bird-nest-test:europe-north1:status-db-instance?port=2102" \
+  "bird-nest-stage:europe-north1:status-db-instance?port=2103" \
+  -i'
 alias breederdb='docker stop breederdb || true && docker rm breederdb || true && docker run --name breederdb -e POSTGRES_PASSWORD=N7EXkBxNFDBXWmTGZgPJ6aNGtpoCsazexBtGdm92sezi -d -p 5432:5432 postgres'
 alias mkdir="mkdir -pv" 
 alias grep="grep -n --color"
@@ -53,6 +69,11 @@ alias reload="source ~/.zshrc"
 alias x="exit"
 alias path='copypath'
 alias c='clear && wttr'
+alias cat=bat
+
+batcopy() {
+    bat --plain "$1" | pbcopy
+}
 # docker
 
 alias ps="docker ps"
