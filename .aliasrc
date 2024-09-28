@@ -51,7 +51,7 @@ alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name Cloud
   "bird-nest-test:europe-north1:status-db-instance?port=2102" \
   "bird-nest-stage:europe-north1:status-db-instance?port=2103" \
   -i'
-alias breederdb='docker stop breederdb || true && docker rm breederdb || true && docker run --name breederdb -e POSTGRES_PASSWORD=N7EXkBxNFDBXWmTGZgPJ6aNGtpoCsazexBtGdm92sezi -d -p 5432:5432 postgres'
+
 alias mkdir="mkdir -pv" 
 alias grep="grep -n --color"
 alias reload="source ~/.zshrc"
