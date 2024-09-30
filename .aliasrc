@@ -11,28 +11,12 @@ alias codeha='code ~/dotfiles/.hazshrc'
 alias codejira='code ~/dotfiles/.jirazshrc'
 alias codegit='code ~/dotfiles/.gitzshrc'
 alias codealias='code ~/dotfiles/.aliasrc'
-
-# Example aliases
 alias root='cd ~/development'
-alias dooris='cd ~/development/dooris-repo'
-alias terminalator='cd ~/development/dooris-repo/apps/terminalator'
-alias term='cd ~/development/dooris-repo/apps/terminalator'
-alias shipment='cd ~/development/dooris-repo/apps/shipment'
-alias booking='cd ~/development/dooris-repo/apps/booking-api'
-alias loadc='cd ~/development/load-carrier'
-alias ica='cd ~/development/ica-handler'
-alias oldsilver='cd ~/development/mtd.silver'
-alias silverweb='cd ~/development/silver-web'
-alias silverapi='cd ~/development/silver-api'
-alias axel='cd ~/development/mtd.axel'
-alias label='cd ~/development/label'
-alias niff='cd ~/development/niffler'
-alias niffweb='cd ~/development/niffler-web'
-alias wep='cd ~/private-dev/wepedigree'
-alias kube='cargo run --manifest-path ~/development/kube-tui/Cargo.toml'
-alias dotfiles='cd ~/dotfiles/'
-alias rider=' open -na "/Applications/Rider.app"'
-alias weaver='cd ~/development/weaver'
+
+# Updated aliases
+alias cfg="~/dotfiles/cloud-config.sh cfg"
+alias k9s="~/dotfiles/cloud-config.sh k9s"
+
 
 alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name CloudSQLProxy \
   -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json \

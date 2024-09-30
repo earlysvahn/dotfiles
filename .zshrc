@@ -12,6 +12,9 @@ tmux() {
     command tmux -f $TMUX_CONFIG "$@"
 }
 #tmux end 
+
+[[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || { echo "Error: .env file not found in ~/dotfiles/"; exit 1; }
+
 source $ZSH/oh-my-zsh.sh
 source $HOME/dotfiles/.hazshrc
 source $HOME/dotfiles/.jirazshrc

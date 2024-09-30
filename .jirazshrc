@@ -1,4 +1,5 @@
-source ~/dotfiles/.env
+[[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || { echo "Error: .env file not found in ~/dotfiles/"; exit 1; }
+
 
 alias jirac='jira issue comment add NUMBER_HERE'
 

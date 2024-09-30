@@ -1,6 +1,4 @@
 
-alias inshallah='dotnet build'
-alias mashallah='dotnet run'
 alias dr=dotnet_run_fzf
 
 function dotnet_run_fzf() {

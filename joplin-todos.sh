@@ -1,9 +1,11 @@
 #!/bin/bash
-source ~/dotfiles/.env
+[[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || {
+	echo "Error: .env file not found in ~/dotfiles/"
+	exit 1
+}
 
 # Set variables
 TOKEN=$JOPLIN_ACCESS_TOKEN
-JOPLIN_URL=$JOPLIN_URL
 
 # Get all notes with specific fields
 response=$(curl -sX GET "$JOPLIN_URL/notes?fields=title,is_todo,todo_completed&token=$TOKEN")
