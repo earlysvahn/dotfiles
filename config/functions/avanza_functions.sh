@@ -1,5 +1,4 @@
 #!/bin/bash
-
 stock() {
 	local stock_id="$1"
 	result=$(curl -s "https://www.avanza.se/_api/market-guide/stock/$stock_id" | jq --arg stock_id "$stock_id" -r '{name} + (.quote | {last, highest, lowest})')

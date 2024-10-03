@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Git Command Aliases
+alias git='LANG=en_GB git'
+alias clone="git clone"
+alias ga="git add -A"
+alias commit="git commit -m"
+alias gc="git commit -m"
+alias push="git push"
+alias cont='git rebase --continue'
+alias gp="git push"
+alias pushup="git push -u origin HEAD"
+alias gpu="git push -u origin HEAD"
+alias reset="git reset --hard HEAD"
+alias gr="git reset --hard HEAD"
+alias get="git pull"
+alias gf="git pull"
+alias status="git status"
+alias gs="git status"
+alias diff="git diff"
+alias gd="git diff"
+alias gco="git checkout"
+alias gcb="git checkout -b"
+alias prev="git checkout -"
+alias gcp="git checkout -"
+alias lazy='lazygit'
+alias gl='glgg --pretty=oneline --abbrev-commit'
+alias build='gh workflow run'

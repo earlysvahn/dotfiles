@@ -1,0 +1,9 @@
+#!/bin/bash
+
+alias t='tmux'
+alias tkill='tmux kill-session -t'
+alias ta='tmux attach -t'
+alias td='tmux detach'
+alias tls='tmux ls'
+alias tnew='tmux new -s'
+alias tks='tmux kill-server'

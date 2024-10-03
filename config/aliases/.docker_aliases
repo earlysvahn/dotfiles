@@ -1,0 +1,5 @@
+#!/bin/bash
+
+alias dbup='start_cloud_sql_proxy'
+alias ps="check_docker_containers"
+alias rspt="restart_spotifyd"

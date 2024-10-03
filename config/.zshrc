@@ -13,23 +13,55 @@ tmux() {
 }
 #tmux end 
 
-[[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || { echo "Error: .env file not found in ~/dotfiles/"; exit 1; }
+[[ -f $HOME/dotfiles/env/.env ]] && source $HOME/dotfiles/env/.env || { echo "Error: .env file not found in $HOME/dotfiles/env/"; exit 1; }
 
 export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/dotfiles/.hazshrc
-source $HOME/dotfiles/.jirazshrc
-source $HOME/dotfiles/.avanzazshrc
-source $HOME/dotfiles/.dotnetzhsrc
-source $HOME/dotfiles/.gitzshrc
-source $HOME/dotfiles/.env
-source $HOME/dotfiles/.aliasrc
-source $HOME/dotfiles/.argorc
+if [[ -f "$HOME/dotfiles/env/.env" ]]; then
+    source "$HOME/dotfiles/env/.env"
+else
+    echo "Error: .env file not found in ~/dotfiles/"
+    exit 1
+fi
 
-source ~/dotfiles/venv/bin/activate
-alias todos='bash $HOME/dotfiles/scripts/joplin-todos.sh'
-alias ss='bash $HOME/dotfiles/tmux/tmux-sessionizer.sh'
+# Load functions
+if [[ -d "$HOME/dotfiles/config/functions" ]]; then
+    for function_file in "$HOME/dotfiles/config/functions"/*.sh; do
+        [ -f "$function_file" ] && source "$function_file"
+    done
+fi
+
+# Load aliases
+if [[ -d "$HOME/dotfiles/config/aliases" ]]; then
+    for alias_file in "$HOME/dotfiles/config/aliases/."*; do
+        [ -f "$alias_file" ] && source "$alias_file"
+    done
+fi
+
+# TMUX Configuration
+export TMUX_CONFIG="$HOME/dotfiles/tmux/.tmux.conf"
+tmux() {
+    command tmux -f "$TMUX_CONFIG" "$@"
+}
+
+# Other configurations and exports (like PATH and NVM)
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
+# (Include other relevant export PATH lines here)
+
+# Load Oh My Zsh
+source "$ZSH/oh-my-zsh.sh"
+
+# Load Powerlevel10k configuration
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+
+# Activate virtual environment
+if [[ ! -f "$HOME/dotfiles/venv/bin/activate" ]]; then
+  echo "Virtual environment not found. Creating it at $HOME/dotfiles/venv..."
+  python3 -m venv "$HOME/dotfiles/venv"
+  echo "Virtual environment created."
+fi
+source "$HOME/dotfiles/venv/bin/activate"
 
 export PATH="/opt/homebrew/Cellar/omnisharp/1.35.3/libexec/bin:$PATH"
 export PATH="/usr/local/share/dotnet:$PATH"

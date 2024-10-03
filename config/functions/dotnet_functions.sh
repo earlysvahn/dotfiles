@@ -1,6 +1,6 @@
+#!/bin/bash
 
-alias dr=dotnet_run_fzf
-
+# Function to run dotnet projects using fzf
 function dotnet_run_fzf() {
     local project=$(find . -name "*.csproj" -o -name "*.fsproj" | fzf)
     if [[ -n "$project" ]]; then

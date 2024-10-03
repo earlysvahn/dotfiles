@@ -1,0 +1,84 @@
+#!/bin/bash
+
+############################
+# General Aliases
+############################
+alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+alias mkdir="mkdir -pv"
+alias grep="grep -n --color"
+alias reload="source $HOME/dotfiles/config/.zshrc"
+alias x="exit"
+alias path='copypath'
+alias c='clear && wttr'
+alias cat='bat -p'
+alias tree="eza --tree -L 1 -A"
+alias rmrf='rm -rf'
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+############################
+# Code and File Navigation Aliases
+############################
+alias codezsh='code $HOME/dotfiles/config/.zshrc'
+alias codeha='code $HOME/dotfiles/config/ha_env'
+alias codejira='code $HOME/dotfiles/config/jira_aliases'
+alias codegit='code $HOME/dotfiles/config/git_aliases'
+alias codealias='code $HOME/dotfiles/config/.aliasrc'
+alias root='cd $HOME/development'
+
+############################
+# Cloud and Terminal Tools Aliases
+############################
+alias cfg="$HOME/dotfiles/scripts/cloud-config.sh cfg"
+alias k9s="$HOME/dotfiles/scripts/cloud-config.sh k9s"
+
+############################
+# Project Management and Editor Aliases
+############################
+alias vi="nvm"
+alias vim="nvim"
+alias view="nvim -R"
+alias vimdiff="nvim -d"
+alias oldvim='\vim'
+alias notes='joplin'
+alias todos='bash $HOME/dotfiles/scripts/joplin-todos.sh'
+alias ss='bash $HOME/dotfiles/config/tmux/tmux-sessionizer.sh'
+
+############################
+# Programming Tools Aliases
+############################
+alias y="yarn"
+alias ya="yarn add"
+alias p='pnpm'
+alias start='pnpm start'
+alias install='pnpm install'
+alias buni='bun install'
+alias buna='bun add'
+alias bunr='bun run --watch dev'
+alias bunswag='bun run nswag'
+alias bunup='bun upgrade'
+alias tf='terraform'
+alias dr=dotnet_run_fzf
+
+############################
+# Music and Media Aliases
+############################
+alias rspt="brew services restart spotifyd && spt"
+alias calendar='icalBuddy eventsToday+2'
+alias tt='tt -theme catppuccin -n 15 -g 1'
+
+############################
+# QMK-Specific Aliases
+############################
+alias qmkc='qmk compile -kb keebio/iris/rev2 -km earlysvahn'
+alias qmkf='cd $HOME/qmk_firmware/keyboards/keebio/iris/keymaps'
+
+############################
+# Weather Information
+############################
+alias wttr='curl -s "wttr.in/Nyköping?format=🌄%20%S%20➡️%20%20%s%20🌃\n%c%t%20(feels%20like%20%f)\n"'
