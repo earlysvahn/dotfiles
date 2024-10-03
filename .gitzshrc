@@ -56,7 +56,7 @@ function clonerepo {
 
 
 # gitopen() - open current repo in github, if -a or --action is passed, open the actions page
-alias gopen='bash ~/dotfiles/git-open.sh'
+alias gopen='bash ~/dotfiles/scripts/git-open.sh'
 
 # gitpush() - Add all changes, commit with a message and push to the remote repository
 gitpush() {
@@ -280,6 +280,6 @@ rebase() {
 
 # Use to get all PRs created by @me for the current directory
 alias prs='gh pr list --author "@me"'
-alias work='bash ~/dotfiles/work-on-issue.sh'
+alias work='bash ~/dotfiles/scripts/work-on-issue.sh'
 
 

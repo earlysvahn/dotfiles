@@ -15,6 +15,8 @@ tmux() {
 
 [[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || { echo "Error: .env file not found in ~/dotfiles/"; exit 1; }
 
+export CLOUDSDK_PYTHON_SITEPACKAGES=1
+
 source $ZSH/oh-my-zsh.sh
 source $HOME/dotfiles/.hazshrc
 source $HOME/dotfiles/.jirazshrc
@@ -25,7 +27,8 @@ source $HOME/dotfiles/.env
 source $HOME/dotfiles/.aliasrc
 source $HOME/dotfiles/.argorc
 
-alias todos='bash $HOME/dotfiles/joplin-todos.sh'
+source ~/dotfiles/venv/bin/activate
+alias todos='bash $HOME/dotfiles/scripts/joplin-todos.sh'
 alias ss='bash $HOME/dotfiles/tmux/tmux-sessionizer.sh'
 
 export PATH="/opt/homebrew/Cellar/omnisharp/1.35.3/libexec/bin:$PATH"
@@ -81,3 +84,4 @@ eval "$(fzf --zsh)"
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
+

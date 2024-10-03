@@ -14,8 +14,8 @@ alias codealias='code ~/dotfiles/.aliasrc'
 alias root='cd ~/development'
 
 # Updated aliases
-alias cfg="~/dotfiles/cloud-config.sh cfg"
-alias k9s="~/dotfiles/cloud-config.sh k9s"
+alias cfg="~/dotfiles/scripts/cloud-config.sh cfg"
+alias k9s="~/dotfiles/scripts/cloud-config.sh k9s"
 
 
 alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name CloudSQLProxy \
@@ -30,7 +30,7 @@ alias dbup='docker rm -f CloudSQLProxy 2>/dev/null && docker run -d --name Cloud
   "bird-nest-test:europe-north1:services-db-instance?port=2002" \
   "bird-nest-stage:europe-north1:services-db-instance?port=2003" \
   "bird-nest-prod:europe-north1:services-db-instance?port=2004" \
-  "bird-nest-prod:europe-north1:services-db-instance-replica?port=2105" \
+  "bird-nest-prod:europe-north1:services-db-instance-replica?port=2005" \
   "bird-nest-dev:europe-north1:status-db-instance?port=2101" \
   "bird-nest-test:europe-north1:status-db-instance?port=2102" \
   "bird-nest-stage:europe-north1:status-db-instance?port=2103" \
@@ -42,11 +42,13 @@ alias reload="source ~/.zshrc"
 alias x="exit"
 alias path='copypath'
 alias c='clear && wttr'
-alias cat=bat
+alias cat=bat -p
+alias tree=eza --tree
 
-batcopy() {
+copy() {
     bat --plain "$1" | pbcopy
 }
+
 # docker
 
 alias ps="docker ps"
