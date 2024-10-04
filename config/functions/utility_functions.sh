@@ -5,16 +5,35 @@ weather() {
     curl -s "wttr.in/$1?format=🌄%20%S%20➡️%20%20%s%20🌃\n%c%t%20(feels%20like%20%f)\n"
 }
 
-# Run and copy the output to clipboard if 'copy' is passed as the last argument
-run_and_copy() {
-  if [[ "${@: -1}" == "copy" ]]; then
-    output=$("${@:1:$(($#-1))}" 2>&1)
-    echo "$output" | pbcopy
-    bat --plain "$1" | pbcopy
+# Function to handle copying with or without display
+handle_copy() {
+  local file="$1"
+  local display="$2"
+
+  if [[ -f "$file" ]]; then
+    if [[ "$display" == "true" ]]; then
+      # Display content using `bat` and copy to clipboard
+      bat --color=never "$file" | pbcopy
+      cat "$file"
+    else
+      # Copy content to clipboard without displaying
+      bat --color=never "$file" | pbcopy
+      echo "File content of '$file' copied to clipboard."
+    fi
   else
-    "$@"
+    echo "File '$file' does not exist."
   fi
 }
+
+# Define functions for copy and copycat
+copy() {
+  handle_copy "$1" "false"
+}
+
+copycat() {
+  handle_copy "$1" "true"
+}
+
 
 #
 _fzf_comprun() {
