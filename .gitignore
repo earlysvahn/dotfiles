@@ -1,4 +1,4 @@
 /env/.env
-/config/tmux/plugins/*
+/config/tmux/plugins/
 venv/
 
