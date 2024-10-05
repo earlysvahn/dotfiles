@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-[[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || { echo "Error: .env file not found in ~/dotfiles/"; exit 1; }
+# [[ -f ~/dotfiles/config/.env ]] && source ~/dotfiles/.env || { echo "Error: .env file not found in ~/dotfiles/"; exit 1; }
 
 typeset -A env_map
 env_map=(

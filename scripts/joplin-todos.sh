@@ -1,8 +1,8 @@
 #!/bin/bash
-[[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || {
-	echo "Error: .env file not found in ~/dotfiles/"
-	exit 1
-}
+# [[ -f ~/dotfiles/.env ]] && source ~/dotfiles/.env || {
+# 	echo "Error: .env file not found in ~/dotfiles/"
+# 	exit 1
+# }
 
 # Set variables
 TOKEN=$JOPLIN_ACCESS_TOKEN

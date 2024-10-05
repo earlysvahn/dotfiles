@@ -3,7 +3,7 @@
 # Git Command Aliases
 alias git='LANG=en_GB git'
 alias clone="git clone"
-alias ga="git add -A"
+alias ga="git add ."
 alias commit="git commit -m"
 alias gc="git commit -m"
 alias push="git push"
@@ -26,3 +26,4 @@ alias gcp="git checkout -"
 alias lazy='lazygit'
 alias gl='glgg --pretty=oneline --abbrev-commit'
 alias build='gh workflow run'
+alias work='/Users/fredriksvahn/dotfiles/scripts/work-on-issue.sh'

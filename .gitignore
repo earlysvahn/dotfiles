@@ -1,4 +1,5 @@
 /env/.env
-/config/tmux/plugins/
+/config/tmux/plugins/**
+/config/tmux/plugins/**/.git
 venv/
 

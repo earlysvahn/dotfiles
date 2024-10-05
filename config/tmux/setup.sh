@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-TMUX_DIR="$HOME/dotfiles/tmux"
+TMUX_DIR="$HOME/dotfiles/config/tmux"
 TMUX_CONF="$TMUX_DIR/tmux.conf"
 TMUX_RESET_CONF="$TMUX_DIR/tmux.reset.conf"
 PLUGINS_DIR="$TMUX_DIR/plugins"

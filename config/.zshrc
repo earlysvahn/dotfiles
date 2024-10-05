@@ -32,12 +32,6 @@ if [[ -d "$HOME/dotfiles/config/functions" ]]; then
     done
 fi
 
-# Load aliases
-if [[ -d "$HOME/dotfiles/config/aliases" ]]; then
-    for alias_file in "$HOME/dotfiles/config/aliases/."*; do
-        [ -f "$alias_file" ] && source "$alias_file"
-    done
-fi
 
 # TMUX Configuration
 export TMUX_CONFIG="$HOME/dotfiles/tmux/.tmux.conf"
@@ -103,4 +97,9 @@ eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
 
-alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+# Load aliases
+if [[ -d "$HOME/dotfiles/config/aliases" ]]; then
+    for alias_file in "$HOME/dotfiles/config/aliases/."*; do
+        [ -f "$alias_file" ] && source "$alias_file"
+    done
+fi
