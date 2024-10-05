@@ -18,15 +18,15 @@ run_setup_script() {
   case "$1" in
   "zsh")
     echo "Running ZSH configuration setup..."
-    source "$HOME/dotfiles/config/zshrc"
+    source "$DOTFILES_HOME/config/zshrc"
     ;;
   "brew")
     echo "Running Homebrew setup..."
-    "$HOME/dotfiles/setup/brew/setup.sh"
+    bash "$DOTFILES_HOME/setup/brew/setup.sh"
     ;;
   "cron")
     echo "Running Cron setup..."
-    "$HOME/dotfiles/setup/cron/setup.sh"
+    bash "$DOTFILES_HOME/setup/cron/setup.sh"
     ;;
   "all")
     run_setup_script "zsh"
