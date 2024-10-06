@@ -49,14 +49,6 @@ source "$ZSH/oh-my-zsh.sh"
 # Load Powerlevel10k configuration
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
-# Activate virtual environment
-if [[ ! -f "$HOME/dotfiles/venv/bin/activate" ]]; then
-  echo "Virtual environment not found. Creating it at $HOME/dotfiles/venv..."
-  python3 -m venv "$HOME/dotfiles/venv"
-  echo "Virtual environment created."
-fi
-source "$HOME/dotfiles/venv/bin/activate"
-
 export PATH="/opt/homebrew/Cellar/omnisharp/1.35.3/libexec/bin:$PATH"
 export PATH="/usr/local/share/dotnet:$PATH"
 export PATH=$HOME/.dotnet/tools:$PATH
@@ -83,21 +75,18 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 test -e /Users/fredriksvahn/.iterm2_shell_integration.zsh && source /Users/fredriksvahn/.iterm2_shell_integration.zsh || true
 
 # bun completions
 [ -s "/Users/fredriksvahn/.bun/_bun" ] && source "/Users/fredriksvahn/.bun/_bun"
 
-
-
 eval "$(fzf --zsh)"
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"
 
-# Load aliases
+# Load aliases last due to plugin issues
 if [[ -d "$HOME/dotfiles/config/aliases" ]]; then
     for alias_file in "$HOME/dotfiles/config/aliases/."*; do
         [ -f "$alias_file" ] && source "$alias_file"
