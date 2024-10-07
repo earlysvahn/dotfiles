@@ -92,3 +92,4 @@ if [[ -d "$HOME/dotfiles/config/aliases" ]]; then
         [ -f "$alias_file" ] && source "$alias_file"
     done
 fi
+export NODE_BINARY=$(which node)
