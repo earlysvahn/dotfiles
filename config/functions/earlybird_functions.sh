@@ -2,9 +2,11 @@
 
 # Retrieve the access token from the specified environment and store it in the clipboard and environment variable
 bnauth() {
-
 	local env="${1:-dev}"
 	local base_url
+	local env_upper
+
+	env_upper=$(echo "$env" | tr '[:lower:]' '[:upper:]')
 
 	case "$env" in
 	dev) base_url="$BIRDNEST_URL_DEV" ;;
@@ -24,7 +26,7 @@ bnauth() {
 		'{username: $user, password: $pass}')
 
 	local response
-	response=$(curl --location -s -X POST "$base_url/auth/token" \
+	response=$(curl -s --location -X POST "$base_url/auth/token" \
 		-H "Content-Type: application/json" \
 		--data "$payload")
 
@@ -36,8 +38,7 @@ bnauth() {
 		return 1
 	fi
 
-	export birdnest_access_token="$token"
+	eval "export BIRDNEST_ACCESS_TOKEN_${env_upper}=\"$token\""
 	echo "$token" | pbcopy
-
-	echo "Access token successfully retrieved from $base_url, copied to clipboard, and stored in \$birdnest_access_token."
+	echo "Access token successfully retrieved from $base_url, copied to clipboard, and stored in \$BIRDNEST_ACCESS_TOKEN_${env_upper}."
 }

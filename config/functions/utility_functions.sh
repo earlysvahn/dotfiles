@@ -12,11 +12,9 @@ handle_copy() {
 
   if [[ -f "$file" ]]; then
     if [[ "$display" == "true" ]]; then
-      # Display content using `bat` and copy to clipboard
       bat --color=never "$file" | pbcopy
       cat "$file"
     else
-      # Copy content to clipboard without displaying
       bat --color=never "$file" | pbcopy
       echo "File content of '$file' copied to clipboard."
     fi
