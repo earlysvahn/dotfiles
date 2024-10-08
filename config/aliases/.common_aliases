@@ -36,7 +36,7 @@ alias root='cd $HOME/development'
 ############################
 # Cloud and Terminal Tools Aliases
 ############################
-alias cfg="$HOME/dotfiles/scripts/cloud-config.sh cfg"
+alias bnenv="$HOME/dotfiles/scripts/cloud-config.sh cfg"
 alias k9s="$HOME/dotfiles/scripts/cloud-config.sh k9s"
 
 ############################
