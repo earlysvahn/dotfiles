@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export TMUX_CONFIG="$HOME/dotfiles/tmux/.tmux.conf"
+export TMUX_CONFIG="$HOME/dotfiles/config/tmux/.tmux.conf"
 t() {
         command tmux -f "$TMUX_CONFIG" "$@"
 }

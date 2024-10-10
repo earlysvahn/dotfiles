@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Create files with chmod +x
+touchx() {
+    touch "$1"
+    chmod +x "$1"
+    echo "Created $1 with chmod +x"
+}
+
 # Display a pretty weather report for the specified city using wttr.in
 weather() {
   curl -s "wttr.in/$1?format=???%20%S%20???%20%20%s%20??\n%c%t%20(feels%20like%20%f)\n"

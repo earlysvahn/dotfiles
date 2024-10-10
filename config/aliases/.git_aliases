@@ -26,4 +26,5 @@ alias gcp="git checkout -"
 alias lazy='lazygit'
 alias gl='glgg --pretty=oneline --abbrev-commit'
 alias build='gh workflow run'
+alias watch='gh run watch'
 alias work='/Users/fredriksvahn/dotfiles/scripts/work-on-issue.sh'

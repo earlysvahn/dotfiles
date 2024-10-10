@@ -19,6 +19,7 @@ start_cloud_sql_proxy() {
         "bird-nest-dev:europe-north1:status-db-instance?port=2101" \
         "bird-nest-test:europe-north1:status-db-instance?port=2102" \
         "bird-nest-stage:europe-north1:status-db-instance?port=2103" \
+        "bird-nest-prod:europe-north1:status-db-instance?port=2104" \
         -i
 }
 
