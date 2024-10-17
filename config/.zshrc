@@ -1,10 +1,6 @@
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
-# ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=( git zsh-syntax-highlighting zsh-autosuggestions web-search copypath dotnet jsontools macos brew alias-tips )
+plugins=( git zsh-syntax-highlighting zsh-autosuggestions copypath dotnet macos brew alias-tips git-auto-fetch)
 
 [[ -f $HOME/dotfiles/env/.env ]] && source $HOME/dotfiles/env/.env || { echo "Error: .env file not found in $HOME/dotfiles/env/"; exit 1; }
 
@@ -45,7 +41,7 @@ source "$ZSH/oh-my-zsh.sh"
 export PATH="/opt/homebrew/Cellar/omnisharp/1.35.3/libexec/bin:$PATH"
 export PATH="/usr/local/share/dotnet:$PATH"
 export PATH=$HOME/.dotnet/tools:$PATH
-export PATH="$HOMe/go/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -84,3 +80,6 @@ if [[ -d "$HOME/dotfiles/config/aliases" ]]; then
         [ -f "$alias_file" ] && source "$alias_file"
     done
 fi
+
+
+GIT_AUTO_FETCH_INTERVAL=60

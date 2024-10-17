@@ -54,8 +54,6 @@ alias ss='bash $HOME/dotfiles/config/tmux/tmux-sessionizer.sh'
 ############################
 # Programming Tools Aliases
 ############################
-alias y="yarn"
-alias ya="yarn add"
 alias p='pnpm'
 alias start='pnpm start'
 alias install='pnpm install'
@@ -70,8 +68,9 @@ alias dr=dotnet_run_fzf
 ############################
 # Music and Media Aliases
 ############################
-alias rspt="brew services restart spotifyd && spt"
 alias calendar='icalBuddy eventsToday+2'
+alias spt='spotify_player'
+alias sptauth='cd $HOME/Desktop/librespot-auth && cargo build && mv credentials.json $HOME/.cache/spotify-player'
 alias tt='tt -theme catppuccin -n 15 -g 1'
 
 ############################

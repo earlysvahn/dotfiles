@@ -32,23 +32,89 @@ gitpush() {
 
 # Pull the latest changes from all repositories in the development directory
 getall() {
-    repo_directory="$HOME/development"
-    green='\033[0;32m'
-    red='\033[0;31m'
-    yellow='\033[0;33m'
-    reset='\033[0m'
-    cd "$repo_directory" || return
+    repo_directories=("$HOME/development" "$HOME/private-dev")
 
-    for repo in */; do
-        cd "$repo" || continue
-        echo "Updating repository: $repo"
-        if [ "$repo" = "dooris-repo/" ]; then
-            git pull origin main-k8s
-        else
-            git pull origin main
+    # Color definitions using ANSI escape codes
+    bg_green='\033[38;2;66;80;71m'  # #425047
+    bg_red='\033[38;2;81;64;69m'    # #514045
+    bg_blue='\033[38;2;58;81;93m'   # #3A515D
+    fg='\033[38;2;211;198;170m'     # #D3C6AA
+    red='\033[38;2;230;126;128m'    # #E67E80
+    yellow='\033[38;2;219;188;127m' # #DBBC7F
+    green='\033[38;2;167;192;128m'  # #A7C080
+    reset='\033[0m'                 # Reset color
+
+    # Function to update a Git repository
+    update_git_repo() {
+        repo="$1"
+        cd "$repo" || return
+        echo -e "${fg}Updating repository: $repo${reset}"
+
+        # Save the current branch
+        current_branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+        if [ $? -ne 0 ]; then
+            echo -e "${red}Error: Not a valid Git repository at $repo${reset}"
+            return
         fi
-        cd ..
+
+        # Determine the target branch: main-k8s for dooris-repo, otherwise main or master
+        if [[ "$repo" =~ dooris-repo ]]; then
+            target_branch="main-k8s"
+        elif git show-ref --verify --quiet refs/heads/main; then
+            target_branch="main"
+        elif git show-ref --verify --quiet refs/heads/master; then
+            target_branch="master"
+        else
+            echo -e "${red}No main or master branch found in $repo. Skipping...${reset}"
+            return
+        fi
+
+        # Fetch changes quietly
+        git fetch --quiet origin "$target_branch"
+
+        # Check for uncommitted changes in the working tree
+        if [ -z "$(git status --porcelain)" ]; then
+            # Working tree is clean
+            echo -e "${yellow}No local changes in $current_branch${reset}"
+
+            # If the current branch is main, main-k8s, or master and has remote changes
+            if [ "$current_branch" = "$target_branch" ]; then
+                if [ "$(git log HEAD..origin/$target_branch --oneline)" ]; then
+                    echo -e "${green}Remote changes detected, pulling updates...${reset}"
+                    git pull origin "$target_branch"
+                else
+                    echo -e "${yellow}No remote changes in $target_branch.${reset}"
+                fi
+            fi
+        else
+            # There are local changes, skip pull
+            echo -e "${red}Local changes detected in $current_branch, skipping pull.${reset}"
+        fi
+
+        cd - >/dev/null || return
+    }
+
+    # Main logic to find .git folders and update repositories
+    for repo_directory in "${repo_directories[@]}"; do
+        echo -e "${bg_blue}Checking repositories in: $repo_directory${reset}"
+
+        for repo in "$repo_directory"/*; do
+            if [ -d "$repo/.git" ]; then
+                # If top-level has a .git folder, update the repository and skip subdirectories
+                update_git_repo "$repo"
+            else
+                # No .git in the top-level directory, check subdirectories
+                for sub_repo in "$repo"/*; do
+                    if [ -d "$sub_repo/.git" ]; then
+                        update_git_repo "$sub_repo"
+                    fi
+                done
+            fi
+        done
     done
+
+    echo -e "${green}All repositories updated.${reset}"
 }
 
 # Open current repo in GitHub, or the actions page if specified

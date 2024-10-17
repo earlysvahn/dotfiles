@@ -71,23 +71,16 @@ if [[ "$tool" == "cfg" ]]; then
 	fi
 
 elif [[ "$tool" == "k9s" ]]; then
-	if [[ -z "$TMUX" ]]; then
-		echo "USE TMUX YOU FOOL!"
-		exit 1
-	fi
-
 	if [[ "$use_fzf" = true ]]; then
 		select_env_with_fzf
-		tmux split-window -h "k9s"
+		k9s
 	elif [[ "$use_current" = true ]]; then
-		echo "Opening k9s with [$(show_active)]."
-		tmux split-window -h "k9s"
+		k9s
 	elif [[ -n "$env" ]]; then
 		set_context "$env"
-		tmux split-window -h "k9s"
+		k9s
 	else
-		echo "Opening k9s with [$(show_active)]."
-		tmux split-window -h "k9s"
+		k9s
 	fi
 
 else
