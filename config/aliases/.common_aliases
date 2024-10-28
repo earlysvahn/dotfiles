@@ -38,6 +38,7 @@ alias root='cd $HOME/development'
 ############################
 alias bnenv="$HOME/dotfiles/scripts/cloud-config.sh cfg"
 alias k9s="$HOME/dotfiles/scripts/cloud-config.sh k9s"
+alias kube="$HOME/Development/kube-tui/target/release/kube-tui"
 
 ############################
 # Project Management and Editor Aliases

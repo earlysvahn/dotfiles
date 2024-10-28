@@ -111,7 +111,7 @@ bomb() {
 			duration=$2
 			shift 2
 			;;
-		--cid)
+		-cid)
 			customer_id=$2
 			shift 2
 			;;

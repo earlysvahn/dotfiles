@@ -156,7 +156,7 @@ issue() {
     fi
 
     if [[ "$action" == "c" || "$action" == "--comment" ]]; then
-        echo -e "@kjbakke @RobinGranqvistEB @storm84\n" >"$temp_file"
+        echo -e "@kjbakke @storm84\n" >"$temp_file"
         nvim +2 "$temp_file"
         printf "Do you want to comment on issue $issue_number? (y/n): "
         read answer
@@ -225,4 +225,52 @@ pr() {
     *) base_branch="$1" ;;
     esac
     gh pr create --base "$base_branch" --head "$(git branch --show-current)"
+}
+
+function git_auto_tag() {
+    if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+        echo "Error: Not inside a Git repository."
+        return 1
+    fi
+
+    git fetch --tags
+
+    TAG=$(git describe --tags "$(git rev-list --tags --max-count=1)" 2>/dev/null || echo "v0.0.0")
+    echo "Current tag: $TAG"
+
+    IFS='.' read -r major minor patch <<<"${TAG//v/}"
+
+    VERSION_TYPE=$(echo -e "patch\nminor\nmajor" | fzf --prompt="Select version to increment: ")
+
+    case "$VERSION_TYPE" in
+    "major")
+        major=$((major + 1))
+        minor=0
+        patch=0
+        echo "Incrementing major version..."
+        ;;
+    "minor")
+        minor=$((minor + 1))
+        patch=0
+        echo "Incrementing minor version..."
+        ;;
+    "patch")
+        patch=$((patch + 1))
+        echo "Incrementing patch version..."
+        ;;
+    *)
+        echo "Invalid selection, exiting."
+        return 1
+        ;;
+    esac
+
+    NEW_TAG="v$major.$minor.$patch"
+    echo "New tag: $NEW_TAG"
+
+    git tag "$NEW_TAG"
+    git push origin "$NEW_TAG"
+
+    echo "New tag $NEW_TAG created and pushed!"
+
+    build
 }

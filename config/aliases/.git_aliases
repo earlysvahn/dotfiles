@@ -27,4 +27,5 @@ alias lazy='lazygit'
 alias gl='glgg --pretty=oneline --abbrev-commit'
 alias build="gh workflow run --ref \$(git rev-parse --abbrev-ref HEAD)"
 alias watch='gh run watch'
-alias work='/Users/fredriksvahn/dotfiles/scripts/work-on-issue.sh'
+alias work='$HOME/dotfiles/scripts/work-on-issue.sh'
+alias tag='git_auto_tag'

@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Export environment variables (if needed)
-export HA_CLITOKEN=$HA_CLITOKEN
-export API_SERVICE_URL=$API_SERVICE_URL
+alias lightsout='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" $HA_LOCAL_URL/api/services/light/turn_off > /dev/null 2>&1'
+alias blinds='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"input_boolean.master_bedroom_blinds_open\"}" $HA_LOCAL_URL/api/services/input_boolean/toggle > /dev/null 2>&1'
+alias stop='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"script.master_bedroom_stop_blinds\"}" $HA_LOCAL_URL/api/services/script/turn_on > /dev/null 2>&1'
 
-# Update aliases to use the API_SERVICE_URL variable
-alias office='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" $API_SERVICE_URL/api/services/light/toggle > /dev/null 2>&1'
-alias lightsout='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" $API_SERVICE_URL/api/services/light/turn_off > /dev/null 2>&1'
-
-alias monitorl='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"switch.monitor_backlight_switch\"}" $API_SERVICE_URL/api/services/switch/toggle > /dev/null 2>&1'
-alias blinds='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"input_boolean.master_bedroom_blinds_open\"}" $API_SERVICE_URL/api/services/input_boolean/toggle > /dev/null 2>&1'
-alias stop='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"script.master_bedroom_stop_blinds\"}" $API_SERVICE_URL/api/services/script/turn_on > /dev/null 2>&1'
-alias alloffice='office && monitorl'
+alias officelights='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"light.upstairs_office_lights\"}" $HA_LOCAL_URL/api/services/light/toggle > /dev/null 2>&1'
+alias monitorlights='curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"switch.monitor_backlight_switch\"}" $HA_LOCAL_URL/api/services/switch/toggle > /dev/null 2>&1'
