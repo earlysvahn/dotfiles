@@ -1,46 +1,69 @@
 #!/bin/bash
 
-# Scene Function for Selecting and Activating Scenes
 scene() {
-    echo "Select a scene:"
-    echo "1. Work"
-    echo "2. Gaming"
-    echo "3. Chill"
-    echo "4. Off"
-    echo -n "Enter the number of the scene: "
+    if [[ "$1" == "off" ]]; then
+        echo "Turning off all entities controlled by scenes..."
 
-    read -r choice
+        entities_json=$(curl -s -X GET -H "Authorization: Bearer $HA_CLITOKEN" \
+            -H "Content-Type: application/json" \
+            "$HA_LOCAL_URL/api/states")
 
-    case $choice in
-    1)
-        entity_id="scene.work"
-        ;;
-    2)
-        entity_id="scene.gaming"
-        ;;
-    3)
-        entity_id="scene.chill"
-        ;;
-    4)
-        entity_id="light.upstairs_office_lights"
-        ;;
-    *)
-        echo "Invalid choice. Please select a valid option."
-        return 1
-        ;;
-    esac
+        # Extract entities controlled by scenes and check which ones are "on"
+        entities_to_turn_off=$(echo "$entities_json" | jq -r '.[] | select(.entity_id | startswith("light.") or startswith("switch.")) | select(.state == "on") | .entity_id')
 
-    # Make the initial API call to the primary service URL
-    echo "Making API call to: $HA_LOCAL_URL/scene/turn_on"
-    response=$(gtimeout 1 curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"$entity_id\"}" "$HA_LOCAL_URL/scene/turn_on > /dev/null 2>&1")
+        # Check if any entities are found to turn off
+        if [ -z "$entities_to_turn_off" ]; then
+            echo "No entities are currently on. Exiting..."
+            return 0
+        fi
 
-    if [ -z "$response" ]; then
-        # If the primary URL fails, use the backup service URL
-        echo "Initial API call timed out. Making backup API call to: $HA_REMOTE_URL/scene/turn_on"
-        response=$(curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" -d "{\"entity_id\": \"$entity_id\"}" "$HA_REMOTE_URL/scene/turn_on > /dev/null 2>&1")
+        # Iterate over each entity and turn it off
+        while IFS= read -r entity_id; do
+            echo "Turning off $entity_id..."
+            curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" \
+                -d "{\"entity_id\": \"$entity_id\"}" \
+                "$HA_LOCAL_URL/api/services/homeassistant/turn_off" >/dev/null 2>&1
+        done <<<"$entities_to_turn_off"
+
+        echo "All active entities have been turned off."
+        return 0
     fi
 
-    echo "API response: ${response:-No response}"
+    # Fetch the list of scenes from Home Assistant
+    scenes_json=$(curl -s -X GET -H "Authorization: Bearer $HA_CLITOKEN" \
+        -H "Content-Type: application/json" \
+        "$HA_LOCAL_URL/api/states" | jq -r '.[] | select(.entity_id | startswith("scene.")) | .entity_id')
+
+    # Check if scenes were found
+    if [ -z "$scenes_json" ]; then
+        echo "No scenes found in Home Assistant. Exiting..."
+        return 1
+    fi
+
+    # Format the scene names and use fzf to select a scene
+    formatted_scenes=$(echo "$scenes_json" | sed 's/scene\.//' | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
+    choice=$(printf "%s\n" "$formatted_scenes" | fzf --prompt="Select a scene: " --height=10 --border --ansi)
+
+    # If no choice is made, exit
+    if [ -z "$choice" ]; then
+        echo "No selection made. Exiting..."
+        return 1
+    fi
+
+    # Activate the selected scene
+    entity_id="scene.$(echo "$choice" | awk '{print tolower($0)}')"
+    echo -e "\e[32mYou selected $entity_id.\e[0m"
+
+    # Make the API call to activate the selected scene
+    response=$(curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" \
+        -d "{\"entity_id\": \"$entity_id\"}" "$HA_LOCAL_URL/api/services/scene/turn_on" >/dev/null 2>&1)
+
+    # Check if the call was successful
+    if [ -z "$response" ]; then
+        echo -e "\e[32mScene set successfully.\e[0m"
+    else
+        echo -e "\e[31mFailed to set scene.\e[0m"
+    fi
 }
 
 office() {

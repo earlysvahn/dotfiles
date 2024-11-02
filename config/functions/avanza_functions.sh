@@ -16,7 +16,7 @@ stock() {
 }
 
 stocks() {
-	local stock_ids=("1523003" "118370")
+	local stock_ids=("118370")
 	local divider="\033[90m----------------------------------------\033[0m" # Dark gray divider
 
 	while true; do

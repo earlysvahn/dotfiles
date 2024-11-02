@@ -1,0 +1,73 @@
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$custom\
+$cmd_duration"""
+
+palette = "everforest"
+
+[directory]
+style = "orange"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "green"
+
+[git_status]
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
+style = "purple"
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\)'
+style = "purple"
+
+[palettes.everforest]
+bg_dim = "#232a2e"
+bg0 = "#2d353b"
+bg1 = "#343f44"
+bg2 = "#3d484d"
+bg3 = "#475258"
+bg4 = "#4f585e"
+bg5 = "#56635f"
+bg_visual = "#543a48"
+bg_red = "#514045"
+bg_green = "#425047"
+bg_blue = "#3a515d"
+bg_yellow = "#4d4c43"
+
+fg = "#d3c6aa"
+red = "#e67e80"
+
+orange = "#e69875"
+yellow = "#dbbc7f"
+green = "#a7c080"
+aqua = "#83c092"
+blue = "#7fbbb3"
+purple = "#d699b6"
+grey0 = "#7a8478"
+grey1 = "#859289"
+grey2 = "#9da9a0"
+statusline1 = "#a7c080"
+statusline2 = "#d3c6aa"
+statusline3 = "#e67e80"
+
+[custom.cluster]
+description = "Displays current config for kubectl"
+command = "kubectl config current-context | sed 's/gke_bird-nest-\\([a-z]*\\)_.*/[\\1]/g'"
+when = true
+style = "bold grey0"
+
+[cmd_duration]
+format = 'took [$duration](bold grey0) '
+min_time = 100
