@@ -1,0 +1,183 @@
+after-login-command = []
+
+after-startup-command = [
+    'exec-and-forget /opt/homebrew/opt/sketchybar/bin/sketchybar',
+]
+
+exec-on-workspace-change = [
+    '/bin/bash',
+    '-c',
+    '/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
+]
+
+start-at-login = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 20
+
+default-root-container-layout = 'tiles'
+
+default-root-container-orientation = 'auto'
+
+key-mapping.preset = 'qwerty'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = ['move-mouse window-lazy-center']
+
+[gaps]
+inner.horizontal = [{ monitor."MSI G241" = 5 }, {monitor."S24C450" = 10}, {monitor."Built-in Retina Display" = 5}, 8]
+inner.vertical =   [{ monitor."MSI G241" = 5}, {monitor."S24C450" = 10}, {monitor."Built-in Retina Display" = 5}, 8]
+outer.left =       [{ monitor."MSI G241" = 50}, {monitor."S24C450" = 50}, {monitor."Built-in Retina Display" = 20}, 500]
+outer.bottom =     50 
+outer.top =        50
+outer.right =      [{ monitor."MSI G241" = 50}, {monitor."S24C450" = 50}, {monitor."Built-in Retina Display" = 20}, 500]
+
+[mode.main.binding]
+
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+alt-h = 'focus left --boundaries all-monitors-outer-frame'
+alt-j = 'focus down --boundaries all-monitors-outer-frame'
+alt-k = 'focus up --boundaries all-monitors-outer-frame'
+alt-l = 'focus right --boundaries all-monitors-outer-frame'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+alt-shift-minus = 'resize smart -100'
+alt-shift-equal = 'resize smart +100'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-w = 'workspace W' #WebBrowser
+alt-c = 'workspace C' #ChatGPT
+alt-m = 'workspace M' #Music
+alt-n = 'workspace N' #Notes
+alt-s = 'workspace S' #Social
+alt-t = 'workspace T' #Terminal
+alt-z = 'workspace Z' #Slask
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-w = 'move-node-to-workspace W'
+alt-shift-c = ['move-node-to-workspace C', "workspace C"]
+alt-shift-m = ['move-node-to-workspace M', "workspace M"]
+alt-shift-n = ['move-node-to-workspace N', "workspace N"]
+alt-shift-s = 'move-node-to-workspace S'
+alt-shift-t = 'move-node-to-workspace T'
+alt-shift-z = 'move-node-to-workspace Z'
+
+alt-tab = 'workspace-back-and-forth'
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+alt-f ='layout floating tiling'
+alt-shift-semicolon = 'mode service'
+
+[mode.service.binding]
+esc = ['reload-config', 'mode main']
+r = ['flatten-workspace-tree', 'mode main'] # reset layout
+f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+#s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
+backspace = ['close-all-windows-but-current', 'mode main']
+alt-shift-semicolon = [
+    'fullscreen',
+    'mode main',
+]
+
+alt-shift-h = ['join-with left', 'mode main']
+alt-shift-j = ['join-with down', 'mode main']
+alt-shift-k = ['join-with up', 'mode main']
+alt-shift-l = ['join-with right', 'mode main']
+alt-shift-r = ['exec-and-forget /opt/homebrew/bin/sketchybar --reload']
+
+
+[workspace-to-monitor-force-assignment]
+1 = 'main'
+2 = 'main'
+3 = 'secondary'
+4 = 'secondary'
+5 = 'secondary'
+W = 'main'
+C = 'main'
+T = 'main'
+M = ['main', 'sedondary']
+N = ['main', 'sedondary']
+S = 'main'
+
+# Automatically move to [T]erminal workspace when opening terminal apps
+[[on-window-detected]]
+if.during-aerospace-startup = true
+check-further-callbacks = true
+if.app-id = 'net.kovidgoyal.kitty'
+run = "move-node-to-workspace T"
+
+# Automatically move to [T]erminal workspace when opening terminal apps
+[[on-window-detected]]
+if.during-aerospace-startup = true
+check-further-callbacks = true
+if.app-id = 'com.googlecode.iterm2'
+run = "move-node-to-workspace T"
+
+# Automatically move to [W]eb Browser workspace when opening browser apps
+[[on-window-detected]]
+if.during-aerospace-startup = true
+check-further-callbacks = true
+if.app-id = 'company.thebrowser.Browser'
+run = "move-node-to-workspace W"
+
+# Automatically move to [M]usic workspace when opening music apps
+[[on-window-detected]]
+if.during-aerospace-startup = true
+check-further-callbacks = true
+if.app-id = 'com.spotify.client'
+run = "move-node-to-workspace M"
+
+[[on-window-detected]]
+if.during-aerospace-startup = true
+check-further-callbacks = true
+if.app-id = 'com.apple.podcasts'
+run = "move-node-to-workspace M"
+
+# Automatically move to [S]ocial workspace when opening social apps
+[[on-window-detected]]
+if.during-aerospace-startup = true
+if.app-id = 'com.microsoft.teams2'
+run = "move-node-to-workspace S"
+
+[[on-window-detected]]
+if.during-aerospace-startup = true
+if.app-id = 'com.microsoft.MobileSMS'
+run = "move-node-to-workspace S"
+
+[[on-window-detected]]
+if.during-aerospace-startup = true
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = "move-node-to-workspace S"
+
+[[on-window-detected]]
+if.during-aerospace-startup = true
+if.app-id = 'com.facebook.archon'
+run = "move-node-to-workspace S"
