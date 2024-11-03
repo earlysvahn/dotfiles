@@ -1,3 +1,4 @@
+export XDG_CONFIG_HOME=$HOME/.config
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 plugins=( git zsh-syntax-highlighting zsh-autosuggestions copypath dotnet macos brew alias-tips git-auto-fetch)
