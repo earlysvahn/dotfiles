@@ -1,0 +1,158 @@
+rm history.txt
+ls
+clear
+..
+clear
+ls
+dotfiles
+z
+eza
+..
+cd dotfiles
+vim .
+nvim
+clear
+kubectl
+clear
+kubectl get pods
+v
+ls
+clar
+clear
+exit
+ls
+cd
+cd ~/dotfiles
+ls
+cd apps
+..
+bn
+bnenv
+clear
+reload
+clear
+cd config
+cd nushell/
+ls
+vim
+nvim 
+x
+exit
+cd ~/dotfiles
+ls
+cd config/nushell/
+vim
+nvim 
+x
+exit
+cd dotfiles/config/nushell/
+starship init nu | save -f ~/.cache/starship/init.nu<\n>
+ls
+clear
+ls
+cd dotfiles/config/nushell/
+nvim ,.
+zoxide init nushell | save -f ~/.zoxide.nu<\n>
+source env.nu
+z
+cd dotfiles/config/nushell/
+source env.nu
+z dot
+z config
+z niffler
+clear
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional<\n>
+mkdir ~/.cache/carapace<\n>
+carapace _carapace nushell | save --force ~/.cache/carapace/init.nu<\n>
+z nushell
+z dotfiles
+cd dotfiles/config/nushell/
+cd
+cd dotfiles/config/nushell/
+source env.nu
+ls
+..
+ls
+cd aliases/
+ls
+ls -a
+z nushell
+cd dotfiles/config/nushell/
+source ~/dotfiles/config/nushell/env.nu
+config nu
+config env
+cd ~/dotfiles/config/nushell/
+ls
+vim .
+source env.nu
+vim env.nu
+source env.nu
+clear
+ls
+benv
+source env.nu
+source ../aliases/module.nu
+source env.nu
+x
+exit
+cd ~/dotfiles/config/nushell/
+source env.nu
+ls
+vim env.nu
+..
+ls
+cd aliases/
+ls
+vim common.nu
+..
+cd nushell/
+ls
+source env.nu
+ls
+vim env.nu
+source env.nu
+vim config.nu
+ls
+cd ~/dotfiles/config/nushell/
+nvim .env
+nvim config.nu 
+x
+exit
+nu
+source env.nu
+cat ~/dotfiles/config/aliases/common.nu
+ls ~/dotfiles/config/aliases
+mv ~/dotfiles/config/aliases/aliases.nu ~/dotfiles/config/aliases/common.nu
+source env.nu
+echo $nu.env.HOME
+echo $env
+clear
+:q
+source $nu.env-path
+source-env
+ls
+source $nu.env-path
+wttr
+common wttr
+bnenv
+common bnenv
+c
+comoon c
+p
+commom p
+common p
+common notes
+notes
+common notes
+joplin
+calendar
+common calendar
+icalBuddy eventsToday+2
+spt
+common spt
+dr
+common dr
+echo $env.PATH
+exit
+nvim env.nu
+exit
