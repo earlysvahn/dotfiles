@@ -108,6 +108,8 @@ source "$ITEM_DIR/front_app.sh"
 # Center
 source "$ITEM_DIR/spotify.sh"
 # source "$ITEM_DIR/media.sh"
+source "$ITEM_DIR/github_prs.sh"
+source "$ITEM_DIR/github_issues.sh"
 
 # Right items
 source "$ITEM_DIR/calendar.sh"
@@ -115,8 +117,6 @@ source "$ITEM_DIR/battery.sh"
 source "$ITEM_DIR/wifi.sh"
 source "$ITEM_DIR/volume.sh"
 source "$ITEM_DIR/weather.sh"
-source "$ITEM_DIR/github_issues.sh"
-source "$ITEM_DIR/github_prs.sh"
 
 # Enable sketchybar hotload
 sketchybar --hotload on
