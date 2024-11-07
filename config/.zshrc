@@ -1,7 +1,7 @@
 export XDG_CONFIG_HOME=$HOME/.config
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="$HOME/.oh-my-zsh"
-plugins=( git zsh-syntax-highlighting zsh-autosuggestions copypath dotnet macos brew alias-tips git-auto-fetch)
+plugins=( git zsh-syntax-highlighting zsh-autosuggestions copypath dotnet macos brew alias-tips git-auto-fetch vi-mode)
 
 [[ -f $HOME/dotfiles/env/.env ]] && source $HOME/dotfiles/env/.env || { echo "Error: .env file not found in $HOME/dotfiles/env/"; exit 1; }
 

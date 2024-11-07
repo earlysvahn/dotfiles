@@ -13,7 +13,7 @@ for m in $(aerospace list-monitors | awk '{print $1}'); do
       icon.font="$FONT:Heavy:16.0"
       icon.padding_left=10
       icon.padding_right=10
-      display=$m
+      display=1
       padding_left=2
       padding_right=2
       label.padding_right=20

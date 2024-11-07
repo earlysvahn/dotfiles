@@ -40,9 +40,11 @@ scene() {
         return 1
     fi
 
-    # Format the scene names and use fzf to select a scene
+    # Format the scene names
     formatted_scenes=$(echo "$scenes_json" | sed 's/scene\.//' | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
-    choice=$(printf "%s\n" "$formatted_scenes" | fzf --prompt="Select a scene: " --height=10 --border --ansi)
+
+    # Use choose to select a scene
+    choice=$(echo "$formatted_scenes" | choose)
 
     # If no choice is made, exit
     if [ -z "$choice" ]; then
@@ -141,5 +143,4 @@ office() {
     curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" \
         -d "{\"entity_id\": \"switch.monitor_backlight_switch\"}" \
         "$HA_LOCAL_URL/api/services/switch/turn_on" >/dev/null 2>&1
-
 }

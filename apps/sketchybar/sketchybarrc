@@ -122,7 +122,5 @@ source "$ITEM_DIR/weather.sh"
 sketchybar --hotload on
 
 # Forcing all item scripts to run (never do this outside of sketchybarrc)
-# sketchybar --bar display=main
 sketchybar --update
-
 echo "Sketchybar configuration loaded successfully."
