@@ -2,6 +2,7 @@
 
 scene() {
     if [[ "$1" == "off" ]]; then
+        gum confirm "Turn off all entities controlled by scenes?" || return 1
         echo "Turning off all entities controlled by scenes..."
 
         entities_json=$(curl -s -X GET -H "Authorization: Bearer $HA_CLITOKEN" \
@@ -13,19 +14,19 @@ scene() {
 
         # Check if any entities are found to turn off
         if [ -z "$entities_to_turn_off" ]; then
-            echo "No entities are currently on. Exiting..."
+            gum style --foreground 212 "No entities are currently on. Exiting..."
             return 0
         fi
 
         # Iterate over each entity and turn it off
         while IFS= read -r entity_id; do
-            echo "Turning off $entity_id..."
+            gum style --foreground 214 "Turning off $entity_id..."
             curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" \
                 -d "{\"entity_id\": \"$entity_id\"}" \
                 "$HA_LOCAL_URL/api/services/homeassistant/turn_off" >/dev/null 2>&1
         done <<<"$entities_to_turn_off"
 
-        echo "All active entities have been turned off."
+        gum style --foreground 34 "All active entities have been turned off."
         return 0
     fi
 
@@ -36,25 +37,25 @@ scene() {
 
     # Check if scenes were found
     if [ -z "$scenes_json" ]; then
-        echo "No scenes found in Home Assistant. Exiting..."
+        gum style --foreground 212 "No scenes found in Home Assistant. Exiting..."
         return 1
     fi
 
     # Format the scene names
     formatted_scenes=$(echo "$scenes_json" | sed 's/scene\.//' | awk '{print toupper(substr($0,1,1)) tolower(substr($0,2))}')
 
-    # Use choose to select a scene
-    choice=$(echo "$formatted_scenes" | choose)
+    # Use gum choose to select a scene
+    choice=$(echo "$formatted_scenes" | gum choose --limit=1)
 
     # If no choice is made, exit
     if [ -z "$choice" ]; then
-        echo "No selection made. Exiting..."
+        gum style --foreground 212 "No selection made. Exiting..."
         return 1
     fi
 
     # Activate the selected scene
     entity_id="scene.$(echo "$choice" | awk '{print tolower($0)}')"
-    echo -e "\e[32mYou selected $entity_id.\e[0m"
+    gum style --foreground 34 "You selected $entity_id."
 
     # Make the API call to activate the selected scene
     response=$(curl -s -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HA_CLITOKEN" \
@@ -62,9 +63,9 @@ scene() {
 
     # Check if the call was successful
     if [ -z "$response" ]; then
-        echo -e "\e[32mScene set successfully.\e[0m"
+        gum style --foreground 34 "Scene set successfully."
     else
-        echo -e "\e[31mFailed to set scene.\e[0m"
+        gum style --foreground 196 "Failed to set scene."
     fi
 }
 

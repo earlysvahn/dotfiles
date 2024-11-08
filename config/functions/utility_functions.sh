@@ -73,3 +73,18 @@ _fzf_comprun() {
   esac
 }
 
+
+s() {
+    local query="${*// /+}"
+    open -a "Arc" "https://www.google.com/search?q=$query"
+}
+
+o() {
+    local url="$1"
+    
+    if [[ ! "$url" =~ ^https?:// ]]; then
+        url="https://$url"
+    fi
+
+    open "$url"
+}
