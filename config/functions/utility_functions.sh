@@ -9,7 +9,7 @@ y() {
 	rm -f -- "$tmp"
 }
 # Create files with chmod +x
-touchx() {
+tx() {
     touch "$1"
     chmod +x "$1"
     echo "Created $1 with chmod +x"
@@ -35,6 +35,14 @@ handle_copy() {
     fi
   else
     echo "File '$file' does not exist."
+  fi
+}
+
+hcopy() {
+  if [[ -n "$1" ]]; then
+    history | grep -i "$1" | tac | cut -d " " -f 3- | fzf | pbcopy
+  else
+    history | tac | cut -d " " -f 3- | fzf | pbcopy
   fi
 }
 

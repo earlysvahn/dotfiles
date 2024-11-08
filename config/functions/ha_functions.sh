@@ -144,3 +144,61 @@ office() {
         -d "{\"entity_id\": \"switch.monitor_backlight_switch\"}" \
         "$HA_LOCAL_URL/api/services/switch/turn_on" >/dev/null 2>&1
 }
+
+control_light_brightness() {
+    # Ensure that the required environment variables are set
+    if [[ -z "$HA_CLITOKEN" || -z "$HA_LOCAL_URL" ]]; then
+        echo "Error: HA_CLITOKEN or HA_LOCAL_URL environment variables are not set."
+        return 1
+    fi
+
+    # Fetch the list of light entities
+    local lights_json
+    lights_json=$(curl -s -X GET -H "Authorization: Bearer $HA_CLITOKEN" \
+        -H "Content-Type: application/json" \
+        "$HA_LOCAL_URL/api/states" | jq -r '.[] | select(.entity_id | startswith("light.")) | .entity_id')
+
+    # Use fzf (or gum) to select a light
+    local selected_light
+    selected_light=$(echo "$lights_json" | fzf --prompt="Select a light: ")
+    # Alternative with gum (if installed):
+    # selected_light=$(echo "$lights_json" | gum choose --prompt="Select a light: ")
+
+    # Exit if no light was selected
+    if [[ -z "$selected_light" ]]; then
+        echo "No light selected."
+        return 1
+    fi
+
+    # Prompt for brightness percentage
+    local brightness
+    brightness=$(gum input --placeholder "Enter brightness percentage (0-100): ")
+    # Alternatively, use read if gum is not installed:
+    # read -p "Enter brightness percentage (0-100): " brightness
+
+    # Validate brightness input
+    if ! [[ "$brightness" =~ ^[0-9]+$ ]] || ((brightness < 0 || brightness > 100)); then
+        echo "Invalid brightness percentage. Please enter a number between 0 and 100."
+        return 1
+    fi
+
+    # Decide between turning the light on or off based on brightness level
+    if [[ "$brightness" -eq 0 ]]; then
+        # Turn off the light
+        curl -s -X POST -H "Authorization: Bearer $HA_CLITOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"entity_id\": \"$selected_light\"}" \
+            "$HA_LOCAL_URL/api/services/light/turn_off"
+        echo "Turned off $selected_light."
+    else
+        # Convert percentage to Home Assistant brightness scale (0-255)
+        local ha_brightness=$((brightness * 255 / 100))
+
+        # Turn on the light with specified brightness
+        curl -s -X POST -H "Authorization: Bearer $HA_CLITOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"entity_id\": \"$selected_light\", \"brightness\": $ha_brightness}" \
+            "$HA_LOCAL_URL/api/services/light/turn_on"
+        echo "Set brightness of $selected_light to $brightness%."
+    fi
+}
