@@ -27,12 +27,40 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = ['move-mouse window-lazy-center']
 
 [gaps]
-inner.horizontal = [{ monitor."MSI G241" = 5 }, {monitor."S24C450" = 10}, {monitor."Built-in Retina Display" = 5}, 8]
-inner.vertical =   [{ monitor."MSI G241" = 5}, {monitor."S24C450" = 10}, {monitor."Built-in Retina Display" = 5}, 8]
-outer.left =       [{ monitor."MSI G241" = 50}, {monitor."S24C450" = 50}, {monitor."Built-in Retina Display" = 20}, 500]
-outer.bottom =     50 
-outer.top =        50
-outer.right =      [{ monitor."MSI G241" = 50}, {monitor."S24C450" = 50}, {monitor."Built-in Retina Display" = 20}, 500]
+inner.horizontal = [
+    # { monitor."Sidecar Display (AirPlay)" = 2 },
+    # { monitor."MSI G241" = 5 },
+    # { monitor."S24C450" = 10 },
+    # { monitor."Built-in Retina Display" = 5 },
+    # { monitor."Dell U4919DW" = 8 },
+    8,
+]
+inner.vertical = [
+    # { monitor."Sidecar Display (AirPlay)" = 2 },
+    # { monitor."MSI G241" = 5 },
+    # { monitor."S24C450" = 10 },
+    # { monitor."Built-in Retina Display" = 5 },
+    # { monitor."Dell U4919DW" = 8 },
+    8,
+]
+outer.left = [
+    # { monitor."Sidecar Display (AirPlay)" = 10 },
+    # { monitor."MSI G241" = 50 },
+    # { monitor."S24C450" = 50 },
+    # { monitor."Built-in Retina Display" = 20 },
+    { monitor."Dell U4919DW" = 500 },
+    30,
+]
+outer.bottom = 50
+outer.top = 50
+outer.right = [
+    # { monitor."Sidecar Display (AirPlay)" = 10 },
+    # { monitor."MSI G241" = 50 },
+    # { monitor."S24C450" = 50 },
+    # { monitor."Built-in Retina Display" = 20 },
+    { monitor."Dell U4919DW" = 500 },
+    25,
+]
 
 [mode.main.binding]
 
@@ -93,19 +121,19 @@ alt-shift-z = 'move-node-to-workspace Z'
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-alt-f ='layout floating tiling'
+alt-f = 'layout floating tiling'
 alt-shift-semicolon = 'mode service'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+f = [
+    'layout floating tiling',
+    'mode main',
+] # Toggle between floating and tiling layout
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 backspace = ['close-all-windows-but-current', 'mode main']
-alt-shift-semicolon = [
-    'fullscreen',
-    'mode main',
-]
+alt-shift-semicolon = ['fullscreen', 'mode main']
 
 alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
@@ -115,17 +143,17 @@ alt-shift-r = ['exec-and-forget /opt/homebrew/bin/sketchybar --reload']
 
 
 [workspace-to-monitor-force-assignment]
-1 = 'main'
-2 = 'main'
-3 = 'secondary'
-4 = 'secondary'
-5 = 'secondary'
-W = 'main'
-C = 'main'
-T = 'main'
-M = ['main', 'sedondary']
-N = ['main', 'sedondary']
-S = 'main'
+1 = 2
+2 = 2
+3 = 1
+4 = 1
+5 = 3
+W = 2
+C = 2
+T = 2
+M = [2, 1]
+N = [2, 1]
+S = 2
 
 # Automatically move to [T]erminal workspace when opening terminal apps
 [[on-window-detected]]
