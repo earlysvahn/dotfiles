@@ -10,6 +10,12 @@ case "$window_name" in
 "air")
         tmux new-window -c "$pane_path" -n "$window_name" "air"
         ;;
+"watch")
+        tmux new-window -c "$pane_path" -n "$window_name" "gh run watch"
+        ;;
+"build")
+        tmux new-window -c "$pane_path" -n "$window_name" "bash -c 'gh workflow run --ref $(git rev-parse --abbrev-ref HEAD) && sleep 2 && gh run watch'"
+        ;;
 "code")
         tmux new-window -c "$pane_path" -n "$window_name" "nvim"
         ;;
