@@ -31,7 +31,7 @@ case $WEATHER_DESCRIPTION in
 "cloudy") ICON="􀇃" ;;                          # Cloudy
 "overcast") ICON="􀇣" ;;                        # Overcast
 "mist" | "fog" | "patches of fog") ICON="􀇋" ;; # Mist or fog
-"patchy rain possible" | "light rain" | "patchy light rain") ICON="􀇅" ;;
+"patchy rain possible" | "light rain" | "patchy light rain" | "patchy rain nearby") ICON="􀇅" ;;
 "moderate rain" | "heavy rain") ICON="􀇇" ;;
 "patchy light snow" | "light snow") ICON="􀇥" ;;                                    # Light snow
 "moderate snow" | "heavy snow") ICON="􀇏" ;;                                        # Heavy snow
@@ -42,4 +42,4 @@ case $WEATHER_DESCRIPTION in
 esac
 
 sketchybar --set $NAME \
-  label="$TEMPERATURE$(echo '°')C $ICON"
+  label="$TEMPERATURE$(echo '°') $ICON"

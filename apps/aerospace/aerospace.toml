@@ -27,22 +27,8 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = ['move-mouse window-lazy-center']
 
 [gaps]
-inner.horizontal = [
-    # { monitor."Sidecar Display (AirPlay)" = 2 },
-    # { monitor."MSI G241" = 5 },
-    # { monitor."S24C450" = 10 },
-    # { monitor."Built-in Retina Display" = 5 },
-    # { monitor."Dell U4919DW" = 8 },
-    8,
-]
-inner.vertical = [
-    # { monitor."Sidecar Display (AirPlay)" = 2 },
-    # { monitor."MSI G241" = 5 },
-    # { monitor."S24C450" = 10 },
-    # { monitor."Built-in Retina Display" = 5 },
-    # { monitor."Dell U4919DW" = 8 },
-    8,
-]
+inner.horizontal = 8
+inner.vertical = 8
 outer.left = [
     # { monitor."Sidecar Display (AirPlay)" = 10 },
     # { monitor."MSI G241" = 50 },
@@ -155,57 +141,44 @@ M = [2, 1]
 N = [2, 1]
 S = 2
 
-# Automatically move to [T]erminal workspace when opening terminal apps
+
 [[on-window-detected]]
-if.during-aerospace-startup = true
-check-further-callbacks = true
-if.app-id = 'net.kovidgoyal.kitty'
+if.app-name-regex-substring = 'finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'slack'
+run = "move-node-to-workspace S"
+
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'kitty'
 run = "move-node-to-workspace T"
 
-# Automatically move to [T]erminal workspace when opening terminal apps
 [[on-window-detected]]
-if.during-aerospace-startup = true
-check-further-callbacks = true
 if.app-id = 'com.googlecode.iterm2'
 run = "move-node-to-workspace T"
 
-# Automatically move to [W]eb Browser workspace when opening browser apps
 [[on-window-detected]]
-if.during-aerospace-startup = true
-check-further-callbacks = true
 if.app-id = 'company.thebrowser.Browser'
 run = "move-node-to-workspace W"
 
-# Automatically move to [M]usic workspace when opening music apps
 [[on-window-detected]]
-if.during-aerospace-startup = true
-check-further-callbacks = true
 if.app-id = 'com.spotify.client'
 run = "move-node-to-workspace M"
 
 [[on-window-detected]]
-if.during-aerospace-startup = true
-check-further-callbacks = true
 if.app-id = 'com.apple.podcasts'
 run = "move-node-to-workspace M"
 
-# Automatically move to [S]ocial workspace when opening social apps
 [[on-window-detected]]
-if.during-aerospace-startup = true
 if.app-id = 'com.microsoft.teams2'
 run = "move-node-to-workspace S"
 
 [[on-window-detected]]
-if.during-aerospace-startup = true
 if.app-id = 'com.microsoft.MobileSMS'
 run = "move-node-to-workspace S"
 
 [[on-window-detected]]
-if.during-aerospace-startup = true
-if.app-id = 'com.tinyspeck.slackmacgap'
-run = "move-node-to-workspace S"
-
-[[on-window-detected]]
-if.during-aerospace-startup = true
 if.app-id = 'com.facebook.archon'
 run = "move-node-to-workspace S"

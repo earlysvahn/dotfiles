@@ -56,11 +56,12 @@ export STATUSLINE2=0xffD3C6AA # statusline2
 export STATUSLINE3=0xffE67E80 # statusline3
 
 # Battery Colors
-export BATTERY_1=0xffa7c080 # Green (full)
-export BATTERY_2=0xffe69875 # Yellow-orange (high)
-export BATTERY_3=0xffdbbc7f # Beige (medium)
-export BATTERY_4=0xffe67e80 # Red-orange (low)
-export BATTERY_5=0xffd699b6 # Pink (critical)
+# Updated battery colors using Everforest palette
+export BATTERY_1=0xffa7c080 # Green (full, 80%+)
+export BATTERY_2=0xff7fbbb3 # Blue (high, 60-79%)
+export BATTERY_3=0xffdca561 # Yellow-orange (medium, 40-59%)
+export BATTERY_4=0xffe67e80 # Soft red-orange (low, 20-39%)
+export BATTERY_5=0xffd699b6 # Pink (critical, below 20%)
 
 # General bar colors
 export BAR_COLOR=$BG0
