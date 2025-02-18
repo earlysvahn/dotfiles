@@ -14,7 +14,7 @@ tmux has-session -t "$SESSION_NAME" 2>/dev/null
 if [[ $? != 0 ]]; then
     tmux new-session -d -s "$SESSION_NAME"
 
-    tmux set-option -t "$SESSION_NAME" prefix C-a
+		tmux source-file "$HOME/dotfiles/config/tmux/.tmux.conf"
 
     tmux split-window -h
 
@@ -35,5 +35,7 @@ if [[ $? != 0 ]]; then
     tmux send-keys -t 2 C-z
     tmux send-keys -t 3 C-z
 fi
+
+tmux select-pane -t 0
 
 tmux attach-session -t "$SESSION_NAME"
