@@ -88,3 +88,27 @@ o() {
 
     open "$url"
 }
+
+push_ubuntu() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: push_ubuntu [-m] <file>"
+        return 1
+    fi
+
+    local DEST="ubuntu:/media/fredrik/Roms/docs/"
+    if [[ "$1" == "-m" ]]; then
+        DEST="ubuntu:/media/movies/"
+        shift  # Remove -m from arguments
+    fi
+
+    ssh ubuntu "mkdir -p $DEST"
+
+    local FILE="$1"
+
+    # Perform the file transfer with rsync
+    if rsync -avP "$FILE" "$DEST"; then
+        echo "Successfully moved $FILE to $DEST on Ubuntu!"
+    else
+        echo "Error: Failed to move $FILE"
+    fi
+}

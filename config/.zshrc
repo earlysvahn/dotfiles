@@ -15,6 +15,14 @@ else
     exit 1
 fi
 
+
+# TMUX Configuration
+export TMUX_CONFIG="$HOME/dotfiles/config/tmux/.tmux.conf"
+tmux() {
+    command tmux -f "$TMUX_CONFIG" "$@"
+}
+
+
 # Load functions
 if [[ -d "$HOME/dotfiles/config/functions" ]]; then
     for function_file in "$HOME/dotfiles/config/functions"/*.sh; do
@@ -22,12 +30,6 @@ if [[ -d "$HOME/dotfiles/config/functions" ]]; then
     done
 fi
 
-
-# TMUX Configuration
-export TMUX_CONFIG="$HOME/dotfiles/config/tmux/.tmux.conf"
-tmux() {
-    command tmux -f "$TMUX_CONFIG" "$@"
-}
 
 # Other configurations and exports (like PATH and NVM)
 export PATH="$HOME/bin:/usr/local/bin:$PATH"

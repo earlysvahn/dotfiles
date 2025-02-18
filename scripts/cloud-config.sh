@@ -6,10 +6,11 @@ typeset -A env_map
 env_map=(
 	"dev" "$GCP_DEV_CONTEXT"
 	"test" "$GCP_TEST_CONTEXT"
+	"stage" "$GCP_TEST_CONTEXT"
 	"prod" "$GCP_PROD_CONTEXT"
 )
 
-sorted_configurations=("dev" "test" "prod")
+sorted_configurations=("dev" "stage" "test" "prod")
 
 set_context() {
 	local selected_env="$1"
@@ -38,6 +39,7 @@ show_active() {
 	case "$current_context" in
 		*"$GCP_DEV_CONTEXT"*) echo "dev" ;;
 		*"$GCP_TEST_CONTEXT"*) echo "test" ;;
+		*"$GCP_STAGE_CONTEXT"*) echo "stage" ;;
 		*"$GCP_PROD_CONTEXT"*) echo "prod" ;;
 		*) echo "$current_context" ;;
 	esac
@@ -55,7 +57,7 @@ while [[ "$#" -gt 0 ]]; do
 	-c | --current) use_current=true ;; 
 	cfg | k9s) tool=$1 ;;               
 	set) action=$1 ;;                   
-	dev | test | prod) env=$1 ;;        
+	dev | test | stage | prod) env=$1 ;;        
 	*)
 		echo "Ignoring invalid argument: $1"
 		;;

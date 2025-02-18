@@ -5,11 +5,17 @@ t() {
         command tmux -f "$TMUX_CONFIG" "$@"
 }
 
+# List open tmux sessions
 open_sessions=$(tmux list-sessions -F "#{session_name}" 2>/dev/null)
 
-directories=$(find "$HOME/Development" "$HOME/private-dev" "$HOME/private-dev/nvim-plugins" "$HOME/Development/dooris-repo/apps" "$HOME/.config" "$HOME/dotfiles" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
+# Find directories and scripts to display
+directories=$(find "$HOME/Development" "$HOME/private-dev" "$HOME/private-dev/nvim-plugins" "$HOME/Development/dooris-repo/apps" "$HOME/.config" "$HOME/dotfiles" "$HOME/dotfiles/scripts" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
 
-options=$(echo -e "$open_sessions\n$directories")
+# List script files separately to be included
+scripts=$(find "$HOME/dotfiles/scripts" -type f -name "*.sh" 2>/dev/null)
+
+# Combine the open sessions, directories, and scripts into the options
+options=$(echo -e "$open_sessions\n$directories\n$scripts")
 
 if [[ $# -eq 1 ]]; then
         selected=$1
@@ -29,12 +35,21 @@ else
         echo "------------------------";
         echo "Pane 0 Preview:";
         tmux capture-pane -t {}.0 -pS -50 2>/dev/null;
+    elif [ -f {} ]; then
+        # Preview script contents
+        head -n 20 {};
     else
         echo "No preview available.";
-    fi' --header="Select a session or directory" --preview-window=down:20:wrap)
+    fi' --header="Select a session, directory, or script" --preview-window=down:20:wrap)
 fi
 
 if [[ -z $selected ]]; then
+        exit 0
+fi
+
+# If the selected item is a script, execute it
+if [[ -f $selected && $selected == *.sh ]]; then
+        bash "$selected"
         exit 0
 fi
 

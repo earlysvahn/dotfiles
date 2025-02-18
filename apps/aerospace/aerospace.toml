@@ -34,17 +34,31 @@ outer.left = [
     # { monitor."MSI G241" = 50 },
     # { monitor."S24C450" = 50 },
     # { monitor."Built-in Retina Display" = 20 },
-    { monitor."Dell U4919DW" = 500 },
+    { monitor."Dell U4919DW" = 100 },
     30,
 ]
-outer.bottom = 50
-outer.top = 50
+outer.bottom = [
+    # { monitor."Sidecar Display (AirPlay)" = 10 },
+    # { monitor."MSI G241" = 50 },
+    # { monitor."S24C450" = 50 },
+    { monitor."Built-in Retina Display" = 15 },
+    # { monitor."Dell U4919DW" = 100 },
+    50,
+]
+outer.top = [
+    # { monitor."Sidecar Display (AirPlay)" = 10 },
+    # { monitor."MSI G241" = 50 },
+    # { monitor."S24C450" = 50 },
+    { monitor."Built-in Retina Display" = 15 },
+    # { monitor."Dell U4919DW" = 100 },
+    50,
+]
 outer.right = [
     # { monitor."Sidecar Display (AirPlay)" = 10 },
     # { monitor."MSI G241" = 50 },
     # { monitor."S24C450" = 50 },
     # { monitor."Built-in Retina Display" = 20 },
-    { monitor."Dell U4919DW" = 500 },
+    { monitor."Dell U4919DW" = 100 },
     25,
 ]
 
