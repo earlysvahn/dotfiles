@@ -9,9 +9,9 @@ k9s:
   ui:
     skin: everforest
     enableMouse: false
-    headless: false
-    logoless: false
-    crumbsless: false
+    headless: true
+    logoless: true
+    crumbsless: true
     reactive: false
     noIcons: false
     defaultsToFullScreen: false
