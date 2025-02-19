@@ -5,8 +5,10 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
-$custom\
+${custom.cluster}\
 $cmd_duration"""
+
+right_format = "${custom.input_lang}"
 
 palette = "everforest"
 
@@ -67,6 +69,13 @@ description = "Displays current config for kubectl"
 command = "kubectl config current-context | sed 's/gke_bird-nest-\\([a-z]*\\)_.*/[\\1]/g'"
 when = true
 style = "bold grey0"
+
+[custom.input_lang]
+command = "layout=$(defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources | awk -F ' = ' '/KeyboardLayout Name/ {print $2}' | tr -d '\";'); if [ \"$layout\" != \"ABC\" ]; then echo $layout; fi"
+when = true
+shell = ["bash", "--noprofile", "--norc"]
+format = "[$output]($style)"
+style = "bold yellow"
 
 [cmd_duration]
 format = 'took [$duration](bold grey0) '
