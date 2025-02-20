@@ -151,11 +151,15 @@ bomb() {
 		return 1
 	fi
 
-	local url="${base_url}/munin-api/v1/status/${tracking_id}/latest"
+	local url="${base_url}/v1/status/${tracking_id}/latest"
 	[[ -n "$customer_id" ]] && url="${url}?customer-id=${customer_id}"
 
 	bombardier -c "$concurrent" -d "$duration" \
 		-H "Content-Type: application/json" \
 		-H "Authorization: Bearer $access_token" \
 		-m GET "$url"
+}
+
+dbdl() {
+	dbask -d deadletter -q "SELECT * FROM deadletters ORDER BY source_topic_publish_time DESC LIMIT 5;" -json | jq -r '.[] | "\(.metadata_publish_time) - \(.source_subscription)"'
 }

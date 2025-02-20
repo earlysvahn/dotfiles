@@ -63,7 +63,7 @@ outer.right = [
 ]
 
 [mode.main.binding]
-
+alt-b = 'balance-sizes'
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
 
