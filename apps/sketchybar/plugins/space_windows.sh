@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
 
-echo AEROSPACE_PREV_WORKSPACE: $AEROSPACE_PREV_WORKSPACE, \
-  AEROSPACE_FOCUSED_WORKSPACE: $AEROSPACE_FOCUSED_WORKSPACE \
-  SELECTED: $SELECTED \
-  BG2: $BG2 \
-  INFO: $INFO \
-  SENDER: $SENDER \
-  NAME: $NAME \
-  >>~/aaaa
-
 source "$CONFIG_DIR/colors.sh"
 
 AEROSPACE_FOCUSED_MONITOR=$(aerospace list-monitors --focused | awk '{print $1}')

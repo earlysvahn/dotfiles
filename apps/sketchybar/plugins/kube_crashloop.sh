@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CRASHLOOP_COUNT=$(kubectl get pods --all-namespaces --no-headers --context="$GCP_PROD_CONTEXT" | grep -c 'CrashLoopBackOff')
+CRASHLOOP_COUNT=$(kubectl get pods --all-namespaces --no-headers --context=gke_bird-nest-prod_europe-north1_bird-nest-cluster | grep -c 'CrashLoopBackOff')
 
 if [ "$CRASHLOOP_COUNT" -eq 0 ]; then
   sketchybar --remove item kube_crashloop
