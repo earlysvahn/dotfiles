@@ -161,5 +161,6 @@ bomb() {
 }
 
 dbdl() {
-	dbask -d deadletter -q "SELECT * FROM deadletters ORDER BY source_topic_publish_time DESC LIMIT 5;" -json | jq -r '.[] | "\(.metadata_publish_time) - \(.source_subscription)"'
+	local limit=${1:-5}
+	dbask -d deadletter -q "SELECT * FROM deadletters ORDER BY source_topic_publish_time DESC LIMIT $limit;" -json | jq -r '.[] | "\(.metadata_publish_time) - \(.source_subscription)"'
 }

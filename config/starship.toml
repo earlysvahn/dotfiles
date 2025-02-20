@@ -5,10 +5,9 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
-${custom.cluster}\
 $cmd_duration"""
 
-right_format = "${custom.input_lang}"
+right_format = "${custom.cluster} ${custom.input_lang}"
 
 palette = "everforest"
 
