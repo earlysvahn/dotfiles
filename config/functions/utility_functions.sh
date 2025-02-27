@@ -112,3 +112,8 @@ push_ubuntu() {
         echo "Error: Failed to move $FILE"
     fi
 }
+
+ff() {
+    aerospace list-windows --all | fzf \
+        --bind 'enter:execute(bash -c "aerospace focus --window-id {1}")+abort'
+}

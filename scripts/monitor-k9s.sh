@@ -1,5 +1,4 @@
 #!/bin/zsh
-
 SESSION_NAME="monitor-k9s"
 
 if [[ -z "$GCP_DEV_CONTEXT" || -z "$GCP_TEST_CONTEXT" || -z "$GCP_STAGE_CONTEXT" || -z "$GCP_PROD_CONTEXT" ]]; then

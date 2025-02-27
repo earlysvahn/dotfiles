@@ -15,7 +15,7 @@ start-at-login = true
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
-accordion-padding = 20
+accordion-padding = 200
 
 default-root-container-layout = 'tiles'
 
@@ -25,6 +25,7 @@ key-mapping.preset = 'qwerty'
 
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = ['move-mouse window-lazy-center']
+automatically-unhide-macos-hidden-apps = false
 
 [gaps]
 inner.horizontal = 8
@@ -34,7 +35,7 @@ outer.left = [
     # { monitor."MSI G241" = 50 },
     # { monitor."S24C450" = 50 },
     # { monitor."Built-in Retina Display" = 20 },
-    { monitor."Dell U4919DW" = 100 },
+    { monitor."Dell U4919DW" = 500 },
     30,
 ]
 outer.bottom = [
@@ -58,7 +59,7 @@ outer.right = [
     # { monitor."MSI G241" = 50 },
     # { monitor."S24C450" = 50 },
     # { monitor."Built-in Retina Display" = 20 },
-    { monitor."Dell U4919DW" = 100 },
+    { monitor."Dell U4919DW" = 500 },
     25,
 ]
 
@@ -122,24 +123,30 @@ alt-shift-z = 'move-node-to-workspace Z'
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-f = 'layout floating tiling'
+
+
 alt-shift-semicolon = 'mode service'
+alt-shift-enter = 'mode apps'
+
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = [
-    'layout floating tiling',
-    'mode main',
-] # Toggle between floating and tiling layout
-#s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
+r = ['flatten-workspace-tree', 'mode main']                # reset layout
+f = ['layout floating tiling', 'mode main']
 backspace = ['close-all-windows-but-current', 'mode main']
 alt-shift-semicolon = ['fullscreen', 'mode main']
 
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
-alt-shift-r = ['exec-and-forget /opt/homebrew/bin/sketchybar --reload']
+alt-h = ['join-with left', 'mode main']
+alt-j = ['join-with down', 'mode main']
+alt-k = ['join-with up', 'mode main']
+alt-l = ['join-with right', 'mode main']
+alt-r = ['exec-and-forget /opt/homebrew/bin/sketchybar --reload']
+
+[mode.apps.binding]
+t = ['exec-and-forget open -a /Applications/kitty.app', 'mode main']
+m = ['exec-and-forget open -a /Applications/Spotify.app', 'mode main']
+s = ['exec-and-forget open -a /Applications/Slack.app', 'mode main']
+w = ['exec-and-forget open -a /Applications/Arc.app', 'mode main']
 
 
 [workspace-to-monitor-force-assignment]

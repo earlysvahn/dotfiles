@@ -5,9 +5,10 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
+${custom.cluster}\
 $cmd_duration"""
 
-right_format = "${custom.cluster} ${custom.input_lang}"
+right_format = "${custom.input_lang}"
 
 palette = "everforest"
 
@@ -65,9 +66,9 @@ statusline3 = "#e67e80"
 
 [custom.cluster]
 description = "Displays current config for kubectl"
-command = "kubectl config current-context | sed 's/gke_bird-nest-\\([a-z]*\\)_.*/[\\1]/g'"
-when = true
-style = "bold grey0"
+command = "kubectl config current-context | sed 's/gke_bird-nest-\\([a-z]*\\)_.*/\\1/' | tr '[:lower:]' '[:upper:]' | sed 's/^/[/' | sed 's/$/]/'"
+when = "kubectl config current-context | grep -vq 'gke_bird-nest-dev_'"
+style = "bold red"
 
 [custom.input_lang]
 command = "layout=$(defaults read ~/Library/Preferences/com.apple.HIToolbox.plist AppleSelectedInputSources | awk -F ' = ' '/KeyboardLayout Name/ {print $2}' | tr -d '\";'); if [ \"$layout\" != \"ABC\" ]; then echo $layout; fi"

@@ -6,12 +6,6 @@ if [ -z "$CONFIG_DIR" ]; then
   exit 1
 fi
 
-# Check if CONFIG_DIR exists
-if [ ! -d "$CONFIG_DIR" ]; then
-  echo "Error: CONFIG_DIR ($CONFIG_DIR) does not exist!"
-  exit 1
-fi
-
 # Set up directory paths
 ITEM_DIR="$CONFIG_DIR/items"     # Directory where the items are configured
 PLUGIN_DIR="$CONFIG_DIR/plugins" # Directory where all the plugin scripts are stored
@@ -59,9 +53,7 @@ bar=(
   shadow=off
   position=top
   sticky=on
-  padding_right=10
-  padding_left=10
-  y_offset=-5
+  y_offset=0
   margin=-2
   topmost=window
   color=0x00000000

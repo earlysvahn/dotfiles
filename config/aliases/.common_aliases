@@ -67,6 +67,8 @@ alias bunup='bun upgrade'
 alias tf='terraform'
 alias dr=dotnet_run_fzf
 alias logs="$HOME/dotfiles/scripts/read-gcp-logs.sh"
+alias format="$HOME/dotfiles/scripts/format.sh"
+
 ############################
 # Music and Media Aliases
 ############################

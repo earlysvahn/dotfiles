@@ -2,11 +2,13 @@
 
 # Start CloudSQL Proxy Docker Container for multiple instances
 start_cloud_sql_proxy() {
-    docker rm -f CloudSQLProxy 2>/dev/null
+    docker rm -f CloudSQLProxy
     docker run -d --name CloudSQLProxy \
         -v $HOME/.config/gcloud/application_default_credentials.json:/path/to/service-account-key.json \
         -p 127.0.0.1:2001-2005:2001-2005 \
         -p 127.0.0.1:2101-2105:2101-2105 \
+        -p 127.0.0.1:2201-2205:2201-2205 \
+        -p 127.0.0.1:2301-2305:2301-2305 \
         --restart unless-stopped \
         gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.1.1 \
         --address 0.0.0.0 \
@@ -20,6 +22,8 @@ start_cloud_sql_proxy() {
         "bird-nest-test:europe-north1:status-db-instance?port=2102" \
         "bird-nest-stage:europe-north1:status-db-instance?port=2103" \
         "bird-nest-prod:europe-north1:status-db-instance?port=2104" \
+        "bird-nest-dev:europe-north1:sagas-db-instance?port=2201" \
+        "bird-nest-dev:europe-north1:address-db-instance?port=2301" \
         -i
 }
 

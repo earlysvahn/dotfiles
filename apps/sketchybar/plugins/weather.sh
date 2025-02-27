@@ -1,3 +1,5 @@
+CACHE_FILE="/tmp/weather_cache.json"
+
 sketchybar --set "$NAME" \
   label="Loading..." \
   icon.color="$BLACK"
@@ -5,21 +7,36 @@ sketchybar --set "$NAME" \
 LOCATION="Nyköping"
 LANG="sv"
 
+# Fetch weather data
 WEATHER_JSON=$(curl -s "https://wttr.in/$LOCATION?0pq&format=j1&lang=$LANG")
 
 if [ -z "$WEATHER_JSON" ]; then
-  sketchybar --set "$NAME" label="$LOCATION"
-  return
+  # If the fetch fails, check if the cache file exists
+  if [ -f "$CACHE_FILE" ]; then
+    WEATHER_JSON=$(cat "$CACHE_FILE")
+  else
+    sketchybar --set "$NAME" label="$LOCATION"
+    return
+  fi
 fi
 
-if [ -z "$WEATHER_JSON" ] || [[ "$WEATHER_JSON" == *"Unknown location"* ]]; then
-  sketchybar --set "$NAME" label="$LOCATION"
-  exit
+# Check if the response indicates an unknown location
+if [[ "$WEATHER_JSON" == *"Unknown location"* ]]; then
+  # Use cached data if available
+  if [ -f "$CACHE_FILE" ]; then
+    WEATHER_JSON=$(cat "$CACHE_FILE")
+  else
+    sketchybar --set "$NAME" label="$LOCATION"
+    exit
+  fi
 fi
 
+# Save the successful response to the cache file
+echo "$WEATHER_JSON" >"$CACHE_FILE"
+
+# Extract temperature and weather description
 TEMPERATURE=$(echo "$WEATHER_JSON" | jq '.current_condition[0].temp_C' | tr -d '"')
-RAW_WEATHER_DESCRIPTION=$(curl -s "https://wttr.in/Nyk�ping?0pq&format=j1&lang=sv" |
-  jq -r '.current_condition[0].weatherDesc[0].value' |
+RAW_WEATHER_DESCRIPTION=$(echo "$WEATHER_JSON" | jq -r '.current_condition[0].weatherDesc[0].value' |
   tr '[:upper:]' '[:lower:]' |
   sed -E 's/^[[:space:]]+|[[:space:]]+$//g' |
   tr -d '\r')
