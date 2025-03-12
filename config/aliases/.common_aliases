@@ -22,6 +22,7 @@ alias ....='cd ../../../../'
 alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
+alias dchmod='find $HOME/dotfiles -type f -name "*.sh" -exec chmod +x {} \;'
 
 ############################
 # Code and File Navigation Aliases

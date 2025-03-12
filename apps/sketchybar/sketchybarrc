@@ -111,6 +111,7 @@ source "$ITEM_DIR/battery.sh"
 # source "$ITEM_DIR/wifi.sh"
 # source "$ITEM_DIR/volume.sh"
 source "$ITEM_DIR/weather.sh"
+source "$ITEM_DIR/input_source.sh"
 
 # Enable sketchybar hotload
 sketchybar --hotload on
