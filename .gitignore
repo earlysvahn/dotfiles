@@ -3,4 +3,4 @@
 /config/tmux/plugins/**
 /config/tmux/plugins/**/.git
 venv/
-
+/automations/*.db
