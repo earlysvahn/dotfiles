@@ -23,6 +23,7 @@ alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 alias dchmod='find $HOME/dotfiles -type f -name "*.sh" -exec chmod +x {} \;'
+alias nlof="$HOME/dotfiles/scripts/fzf_listoldfiles.sh"
 
 ############################
 # Code and File Navigation Aliases
@@ -67,8 +68,7 @@ alias bunswag='bun run nswag'
 alias bunup='bun upgrade'
 alias tf='terraform'
 alias dr=dotnet_run_fzf
-alias logs="$HOME/dotfiles/scripts/read-gcp-logs.sh"
-alias format="$HOME/dotfiles/scripts/format.sh"
+alias nlogs="cat $HOME/.local/state/nvim/log"
 
 ############################
 # Music and Media Aliases

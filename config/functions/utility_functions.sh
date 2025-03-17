@@ -117,3 +117,39 @@ ff() {
     aerospace list-windows --all | fzf \
         --bind 'enter:execute(bash -c "aerospace focus --window-id {1}")+abort'
 }
+
+
+cht() {
+  local entry query
+  local languages core_utils others all_tools
+
+  languages=$'golang\nlua\ntypescript\ncsharp\nnodejs\npython\nbash\nzsh'
+  core_utils=$'xargs\nfind\nmv\nsed\nawk\ngrep\ncurl\njq\nrg'
+  others=$'docker\ngit\nvim\ntmux\ntldr\nman\nexplain'
+
+  all_tools="${languages}\n${core_utils}\n${others}"
+
+  entry=$(print -l $all_tools | fzf --prompt="Cheat: " \
+    --preview="curl -s 'cht.sh/{}/:list' | head -20" --preview-window=down:10:wrap)
+
+  [[ -z $entry ]] && return
+
+  local suggestion="your command"
+  case $entry in
+    git) suggestion="rebase interactive" ;;
+    docker) suggestion="build image" ;;
+    find) suggestion="find . -name '*.txt'" ;;
+    vim) suggestion="search and replace" ;;
+    grep) suggestion="recursive search pattern" ;;
+    curl) suggestion="GET request with headers" ;;
+  esac
+
+  read -r "query?Query (e.g., $suggestion): "
+  [[ -z $query ]] && return
+
+  if print -l $languages | grep -qFx "$entry"; then
+    curl -s "cht.sh/${entry}/$(echo "$query" | tr ' ' '+')" | less -R
+  else
+    curl -s "cht.sh/${entry}~${query}" | less -R
+  fi
+}

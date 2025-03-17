@@ -20,27 +20,7 @@ options=$(echo -e "$open_sessions\n$directories\n$scripts")
 if [[ $# -eq 1 ]]; then
         selected=$1
 else
-        selected=$(echo -e "$options" | fzf --preview '
-    if [ -d {} ]; then
-        # Preview file system for directories
-        eza --icons --group-directories-first --git -la {} 2>/dev/null;
-    elif tmux has-session -t {} 2>/dev/null; then
-        # Preview tmux session details
-        echo "Tmux Session: {}";
-        echo "------------------------";
-        tmux list-windows -t {} | sed "s/^/Window: /";
-        echo "------------------------";
-        echo "Pane Content Preview:";
-        tmux list-panes -t {} -F "Pane #{pane_index} - Active Command: #{pane_current_command}";
-        echo "------------------------";
-        echo "Pane 0 Preview:";
-        tmux capture-pane -t {}.0 -pS -50 2>/dev/null;
-    elif [ -f {} ]; then
-        # Preview script contents
-        head -n 20 {};
-    else
-        echo "No preview available.";
-    fi' --header="Select a session, directory, or script" --preview-window=down:20:wrap)
+        selected=$(echo -e "$options" | fzf --header="Select a session, directory, or script")
 fi
 
 if [[ -z $selected ]]; then

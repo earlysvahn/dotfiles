@@ -4,3 +4,4 @@
 /config/tmux/plugins/**/.git
 venv/
 /automations/*.db
+/scripts/scrape.sh
